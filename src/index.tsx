@@ -1,19 +1,44 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {Provider} from "react-redux";
+import firebase from "firebase/app";
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
+import {storeSettings} from "./store/store";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+if (process.env.NODE_ENV === 'production') {
+    console.log = () => {}
+    console.error = () => {}
+    console.debug = () => {}
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const firebaseConfig = {
+    apiKey: "AIzaSyCt-g3N6tV7TIp_rbc9DKbDogcpwjR4Mp8",
+    authDomain: "casual-work-986eb.firebaseapp.com",
+    projectId: "casual-work-986eb",
+    storageBucket: "casual-work-986eb.appspot.com",
+    messagingSenderId: "735726396189",
+    appId: "1:735726396189:web:e56962df3c9fbeabe637f4",
+    measurementId: "G-D43HL1F5GF"
+};
+
+export const fire = firebase.initializeApp(firebaseConfig);
+
+const store  = storeSettings();
+
+function Root() {
+
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    )
+}
+
+ReactDOM.render(
+    <Root/>,
+    document.getElementById('root')
+);
