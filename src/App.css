@@ -1,3 +1,7 @@
+@import url('./resources/css/core.css');
+@import url('./resources/css/style.css');
+@import url('./resources/css/custom.css');
+
 .App {
   text-align: center;
 }

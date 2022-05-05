@@ -866,6 +866,24 @@ card-block {
     min-height: 100vh;
 }
 
+/* register */
+.register-card.auth-body {
+    width: 720px;
+}
+
+.register-card {
+    border-radius: 30px;
+    position: relative;
+    display: block;
+}
+
+.register-card h3 {
+    color: #666666;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
 .auth-box {
     background-color: #fff;
     border-radius: 8px;
