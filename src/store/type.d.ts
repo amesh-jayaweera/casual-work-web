@@ -95,5 +95,20 @@ export interface CrudState {
     error? : string;
 }
 
+export interface IQuestion {
+    question: string;
+    optionOne: string;
+    optionTwo: string;
+    optionThree: string;
+    correctOption: number;
+}
+
+export interface QuestionSet {
+    title: string;
+    companyId: string;
+    questions: IQuestion[];
+    createdDateTime: any;
+}
+
 
 

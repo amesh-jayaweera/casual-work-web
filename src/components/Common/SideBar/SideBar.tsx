@@ -58,31 +58,15 @@ export function SideBar() {
 
                         <li className="dropdown">
                             <a href={"#collapseEmployees"} className="dropdown-toggle btn" data-toggle="collapse">
-                                <i className="icon ion-ios-contacts custom-icons"/>
-                                <span className="accordion-menu">Employees</span>
+                                <i className="icon ion-ios-book custom-icons"/>
+                                <span className="accordion-menu">Question Bank</span>
                             </a>
                             <div className="collapse" id="collapseEmployees">
                                 <ul>
                                     <li className="li-submenu"><a
-                                        className="li-submenu-color" href={"#employee"}>- Employees</a></li>
+                                        className="li-submenu-color" href={"#quiz"}>- Question Sets</a></li>
                                     <li className="li-submenu"><a
-                                        className="li-submenu-color" href={"#employee/registration"}>- Employee Registration</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li className="dropdown">
-                            <a href={"#collapseAdmins"} className="dropdown-toggle btn" data-toggle="collapse">
-                                <i className="icon ion-ios-contact custom-icons"/>
-                                <span className="accordion-menu">Administration Area</span>
-                            </a>
-                            <div className="collapse" id="collapseAdmins">
-                                <ul>
-                                    <li className="li-submenu"><a
-                                        className="li-submenu-color" href={"#admin"}>- Administrators</a></li>
-                                    <li className="li-submenu"><a
-                                        className="li-submenu-color" href={"#admin/registration"}>- Admin Registration</a>
+                                        className="li-submenu-color" href={"#quiz/create"}>- Create Quiz</a>
                                     </li>
                                 </ul>
                             </div>

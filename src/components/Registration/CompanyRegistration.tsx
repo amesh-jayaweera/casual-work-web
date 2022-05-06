@@ -19,6 +19,17 @@ import {registerCompany} from "../../store/actions/companyActions";
 
 export function CompanyRegistration() {
 
+    // useEffect(() => {
+    //     const script = document.createElement('script');
+    //     script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initAutocomplete&libraries=places&v=weekly";
+    //     script.async = true;
+    //     document.body.appendChild(script);
+    //
+    //     return () => {
+    //         document.body.removeChild(script);
+    //     }
+    // }, []);
+
     const [validation,setValidation] = useState({
         nameReq: false,
         addressReq: false,
@@ -196,6 +207,7 @@ export function CompanyRegistration() {
                                                           <div className="form-group">
                                                               <label>Address <sup>*</sup></label>
                                                               <textarea className="form-control " required
+                                                                        placeholder="Enter company address"
                                                                         onChange={(e)=> {
                                                                             setCompany(prevState => ({
                                                                                 ...prevState,
@@ -218,7 +230,7 @@ export function CompanyRegistration() {
 
                                                           <div className="form-group">
                                                               <label>Contact Number <sup>*</sup></label>
-                                                              <input className="form-control " type="text" placeholder="Email" required
+                                                              <input className="form-control " type="text" placeholder="Contact Number" required
                                                                      onChange={(e)=> {
                                                                          setCompany(prevState => ({
                                                                              ...prevState,

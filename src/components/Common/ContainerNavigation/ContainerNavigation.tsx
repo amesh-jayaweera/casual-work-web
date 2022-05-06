@@ -1,6 +1,7 @@
 import React from "react";
 
-export function ContainerNavigation({title,mainTitle,mainNav} : {title : string, mainTitle : string, mainNav : string}) {
+export function ContainerNavigation({title,mainTitle,mainNav} : {title : string, mainTitle : string, mainNav : string})
+{
     return (
         <div className="page-header">
             <div className="row">
