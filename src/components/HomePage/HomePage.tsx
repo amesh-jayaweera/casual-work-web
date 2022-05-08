@@ -13,6 +13,7 @@ import {CompanyProfileView} from "../Profile/CompanyProfileView";
 import {NotFoundDashboard} from "../Error/NotFound/NotFoundDashboard";
 import {locations, locationsStartWith} from "../constants";
 import { Offline, Online } from 'react-detect-offline';
+import {CreateQuiz} from "../QuizBank/CreateQuiz";
 
 export function HomePage() {
 
@@ -50,6 +51,19 @@ export function HomePage() {
                   <div className="pd-ltr-20 xs-pd-20-10">
                       <ContainerNavigation title={"Profile"} mainTitle={"Company Profile"} mainNav={""}/>
                       <CompanyProfileView/>
+                  </div>
+              }
+              {
+                  (location.hash === "#quiz/create" || location.hash.startsWith("#quiz/create/add-question?id=")) &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Quiz Bank"} mainTitle={"Create Quiz"} mainNav={""}/>
+                      <CreateQuiz/>
+                  </div>
+              }
+              {
+                  (location.hash === "#quiz/bank") &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Quiz Bank"} mainTitle={"Quiz Sets"} mainNav={""}/>
                   </div>
               }
               {

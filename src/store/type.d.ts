@@ -103,10 +103,10 @@ export interface IQuestion {
     correctOption: number;
 }
 
-export interface QuestionSet {
+export interface IQuiz {
     title: string;
     companyId: string;
-    questions: IQuestion[];
+    questions: Map<string, IQuestion>;
     createdDateTime: any;
 }
 
