@@ -8,18 +8,6 @@ export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, 
     const location = useLocation();
     const id = location.hash.split("#quiz/create/add-question?id=")[1];
 
-    useEffect(()=> {
-        if(!isEdit) {
-            setQuestion({
-                question: "",
-                optionOne: "",
-                optionTwo: "",
-                optionThree: "",
-                correctOption: 0
-            })
-        }
-    },[])
-
     const history = useHistory();
     const [valid, setValid] = useState<boolean>(initQuestion.correctOption > 0 &&
     initQuestion.correctOption < 4);
@@ -207,13 +195,13 @@ export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, 
                     <div className="modal-footer">
                         <button type="button" data-dismiss="modal" className="btn btn-outline-warning"
                                 onClick={() =>
-                                    setQuestion({
+                                    setQuestion(prevState => ({
+                                        ...prevState,
                                         question: "",
                                         optionOne: "",
                                         optionTwo: "",
-                                        optionThree: "",
-                                        correctOption: 0
-                                    })
+                                        optionThree: ""
+                                    }))
                                 }
                         >Clear</button>
                         <button type="button" data-dismiss="modal" className="btn btn-primary"
