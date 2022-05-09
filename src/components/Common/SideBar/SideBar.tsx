@@ -64,7 +64,7 @@ export function SideBar() {
                             <div className="collapse" id="collapseEmployees">
                                 <ul>
                                     <li className="li-submenu"><a
-                                        className="li-submenu-color" href={"#quiz"}>- Question Sets</a></li>
+                                        className="li-submenu-color" href={"#quiz/bank"}>- Question Sets</a></li>
                                     <li className="li-submenu"><a
                                         className="li-submenu-color" href={"#quiz/create"}>- Create Quiz</a>
                                     </li>

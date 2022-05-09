@@ -205,6 +205,17 @@ export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, 
                     </div>
 
                     <div className="modal-footer">
+                        <button type="button" data-dismiss="modal" className="btn btn-outline-warning"
+                                onClick={() =>
+                                    setQuestion({
+                                        question: "",
+                                        optionOne: "",
+                                        optionTwo: "",
+                                        optionThree: "",
+                                        correctOption: 0
+                                    })
+                                }
+                        >Clear</button>
                         <button type="button" data-dismiss="modal" className="btn btn-primary"
                                 onClick={() => onSubmit()}
                         >Save</button>
