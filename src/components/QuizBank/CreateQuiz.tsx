@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {IQuestion, IQuiz} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
@@ -24,13 +24,17 @@ export function CreateQuiz() {
         createdDateTime: new Date()
     });
 
-    const [question, setQuestion] = useState<IQuestion>({
+    const question = useRef<IQuestion>({
         question: "",
         optionOne: "",
         optionTwo: "",
         optionThree: "",
         correctOption: 0
     });
+
+    useEffect(()=> {
+        console.log(quiz.questions);
+    },[quiz.questions]);
 
     function onSubmit() {
 
@@ -98,7 +102,8 @@ export function CreateQuiz() {
                                         <button type="button" className="btn btn-warning btn-left-margin"
                                                 key={`${value[0]}-button-group-edit`}
                                                 onClick={() => {
-
+                                                    question.current = value[1];
+                                                    history.push(`#quiz/create/edit-question?id=${value[0]}`);
                                                 }}
                                         >Edit</button>
                                         {/*  apply processing param here for disabled */}
@@ -133,15 +138,19 @@ export function CreateQuiz() {
             <CreateQuestionModal onQuestionComplete={(returnedQuestion: any)=> {
                 quiz.questions.set(returnedQuestion["id"], returnedQuestion["quiz"]);
             }}
-                                 initQuestion={{
-                                     question: "",
-                                     optionOne: "",
-                                     optionTwo: "",
-                                     optionThree: "",
-                                     correctOption: 0
+                                 initQuestion={question.current}
+                                 isOpen={location.hash.startsWith("#quiz/create/add-question?id=")
+                                 || location.hash.startsWith('#quiz/create/edit-question?id=')}
+                                 isEdit={location.hash.startsWith('#quiz/create/edit-question?id=')}
+                                 onClose={()=> {
+                                     question.current = {
+                                             question: "",
+                                             optionOne: "",
+                                             optionTwo: "",
+                                             optionThree: "",
+                                             correctOption: 0
+                                     }
                                  }}
-                                 isOpen={location.hash.startsWith("#quiz/create/add-question?id=")}
-                                 isEdit={false}
             />
 
             <DeleteQuestionConfirmModal handleConfirm={(id: string)=> {

@@ -2,16 +2,28 @@ import React, {useEffect, useState} from "react";
 import {useHistory, useLocation} from "react-router";
 import {IQuestion} from "../../store/type";
 
-export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, isEdit} : {onQuestionComplete : any ,
-    initQuestion : IQuestion, isOpen : boolean, isEdit: boolean}) {
+export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, isEdit, onClose} :
+                                        {onQuestionComplete : any , initQuestion : IQuestion, isOpen : boolean,
+                                            isEdit: boolean, onClose: any}) {
 
     const location = useLocation();
-    const id = location.hash.split("#quiz/create/add-question?id=")[1];
+    let id: string;
+    if(!isEdit) {
+        id = location.hash.split("#quiz/create/add-question?id=")[1];
+    } else {
+        id = location.hash.split("#quiz/create/edit-question?id=")[1];
+    }
 
     const history = useHistory();
-    const [valid, setValid] = useState<boolean>(initQuestion.correctOption > 0 &&
-    initQuestion.correctOption < 4);
-    const [question, setQuestion] = useState<IQuestion>(initQuestion);
+    const [valid, setValid] = useState<boolean>(true);
+    const [question, setQuestion] = useState<IQuestion>({
+        question: "",
+        optionOne: "",
+        optionTwo: "",
+        optionThree: "",
+        correctOption: 0
+    });
+
     const [validation, setValidation] = useState({
         questionReq: false,
         optionOneReq: false,
@@ -26,6 +38,10 @@ export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, 
         else
             setValid(false);
     },[question]);
+
+    useEffect(()=> {
+        setQuestion(initQuestion)
+    },[initQuestion]);
 
     function onSubmit() {
 
@@ -56,6 +72,7 @@ export function CreateQuestionModal({onQuestionComplete , initQuestion, isOpen, 
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close"
                                 onClick={() => {
                                     history.goBack();
+                                    onClose();
                                 }}
                         >
                             <span aria-hidden="true">&times;</span>
