@@ -71,6 +71,18 @@ export function HomePage() {
                   </div>
               }
               {
+                  (location.hash === '#jobs/post-job') &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Job"} mainTitle={"Post Job"} mainNav={""}/>
+                  </div>
+              }
+              {
+                  (location.hash === '#jobs') &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Job"} mainTitle={"Jobs"} mainNav={""}/>
+                  </div>
+              }
+              {
                   location.hash === '#dashbord/not-found' &&
                       <NotFoundDashboard/>
               }

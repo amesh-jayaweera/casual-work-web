@@ -3,7 +3,9 @@ export const locations : string[] = [
     '#dashbord/not-found',
     '#company/profile',
     '#quiz/create',
-    '#quiz/bank'
+    '#quiz/bank',
+    '#jobs',
+    '#jobs/post-job'
 ];
 
 export const locationsStartWith : string[] = [
