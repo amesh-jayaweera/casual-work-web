@@ -110,5 +110,12 @@ export interface IQuiz {
     createdDateTime: any;
 }
 
+export interface IQuizStore {
+    title: string;
+    companyId: string;
+    questions: IQuestion[];
+    createdDateTime: any;
+}
+
 
 

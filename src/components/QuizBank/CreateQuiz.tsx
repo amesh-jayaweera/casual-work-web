@@ -1,17 +1,28 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IQuestion, IQuiz} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
 import {CreateQuestionModal} from "./CreateQuestionModal";
 import {useHistory, useLocation} from "react-router";
 import {v4 as uuidv4} from 'uuid';
 import {DeleteQuestionConfirmModal} from "./DeleteQuestionConfirmModal";
+import {saveQuiz, updateQuiz} from "../../store/actions/quizActions";
+import {
+    CREATE_QUIZ_DEFAULT,
+    CREATE_QUIZ_FAILED,
+    CREATE_QUIZ_SUCCESS, UPDATE_QUIZ_FAILED,
+    UPDATE_QUIZ_SUCCESS
+} from "../../store/actionTypes";
+import {Failure, Success} from "../../util/toasts";
 
 export function CreateQuiz() {
 
+    const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
     const { user : {email} } = useSelector((state: RootState) => state.auth);
+    const {type, error, message} = useSelector((state: RootState) => state.quiz);
+    const isEdit = useRef<Boolean>(false);
 
     const [validation,setValidation] = useState({
         titleReq : false
@@ -32,27 +43,51 @@ export function CreateQuiz() {
         correctOption: 0
     });
 
-    useEffect(()=> {
-        console.log(quiz.questions);
-    },[quiz.questions]);
+    useEffect(() => {
+        if (type === CREATE_QUIZ_SUCCESS) {
+            Success(message as string);
+            dispatch({
+                type: CREATE_QUIZ_DEFAULT
+            });
+            history.push("#quiz/bank");
+        } else if(type === CREATE_QUIZ_FAILED) {
+            Failure(error as string);
+            dispatch({
+                type : CREATE_QUIZ_DEFAULT
+            });
+        } else if(type === UPDATE_QUIZ_SUCCESS) {
+            Success(error as string);
+            dispatch({
+                type : CREATE_QUIZ_DEFAULT
+            });
+            history.push("#quiz/bank");
+        } else if(type === UPDATE_QUIZ_FAILED) {
+            Failure(error as string);
+            dispatch({
+                type : CREATE_QUIZ_DEFAULT
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[type, error, message, dispatch]);
 
-    function onSubmit() {
+    function onSubmit(isEdit: React.MutableRefObject<Boolean>) {
+        setValidation(prevState => ({
+            ...prevState,
+            titleReq: !quiz.title
+        }))
 
+        if(!!quiz.title) {
+            if(isEdit) {
+                dispatch(saveQuiz(quiz));
+            } else {
+                dispatch(updateQuiz(quiz));
+            }
+        }
     }
 
     return (
         <>
             <div className="pd-20 card-box mb-30">
-                { /* Loading Bar */ }
-                {/*{*/}
-                {/*    processing &&*/}
-                {/*    <div className="progress custom-progress">*/}
-                {/*        <div className={"progress-bar bg-dgreen progress-bar-striped progress-bar-animated custom-progress-bar-" + progress?.toString()}*/}
-                {/*             role="progressbar" aria-valuemin={0} aria-valuemax={100}>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*}*/}
-                <br/>
                 <form className="needs-validation">
 
                     <div className="row">
@@ -119,7 +154,6 @@ export function CreateQuiz() {
                             )
                         })
                     }
-
                 </div>
 
                 <div className="d-flex justify-content-end">
@@ -129,7 +163,7 @@ export function CreateQuiz() {
                     {/*  apply processing param here for disabled */}
                     <button  className="btn btn-primary" disabled={false}
                              onClick={() => {
-                                 onSubmit();
+                                 onSubmit(isEdit);
                              }}
                     >Save</button>
                 </div>
