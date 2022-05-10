@@ -4,6 +4,7 @@ export const locations : string[] = [
     '#company/profile',
     '#quiz/create',
     '#quiz/bank',
+    '#payment',
     '#jobs',
     '#jobs/post-job'
 ];

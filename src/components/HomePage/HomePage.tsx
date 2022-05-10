@@ -15,6 +15,7 @@ import {locations, locationsStartWith} from "../constants";
 import { Offline, Online } from 'react-detect-offline';
 import {CreateQuiz} from "../QuizBank/CreateQuiz";
 import {QuizTable} from "../QuizBank/QuizTable";
+import {Payment} from "../Payment/Payments";
 
 export function HomePage() {
 
@@ -70,6 +71,13 @@ export function HomePage() {
                   <div className="pd-ltr-20 xs-pd-20-10">
                       <ContainerNavigation title={"Quiz Bank"} mainTitle={"Quiz Sets"} mainNav={""}/>
                       <QuizTable/>
+                  </div>
+              }
+              {
+                  (location.hash === '#payment') &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Payments"} mainTitle={"Job Payments"} mainNav={""}/>
+                      <Payment/>
                   </div>
               }
               {
