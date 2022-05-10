@@ -107,15 +107,32 @@ export interface IQuiz {
     title: string;
     companyId: string;
     questions: Map<string, IQuestion>;
-    createdDateTime: any;
 }
 
 export interface IQuizStore {
     title: string;
     companyId: string;
     questions: IQuestion[];
-    createdDateTime: any;
 }
 
+type TableActions = {
+    type : string;
+    data : any[];
+    unsubscribed? : any;
+}
+
+export interface QuizListTable {
+    id: number;
+    companyId: string;
+    title: string;
+    numberOfQuestions: number;
+    action : any;
+}
+
+export interface TableState  {
+    loading : boolean;
+    data : any[];
+    unsubscribed? : any;
+}
 
 

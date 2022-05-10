@@ -27,6 +27,9 @@ export const CREATE_QUIZ_DEFAULT = "CREATE_QUIZ_DEFAULT";
 export const UPDATE_QUIZ_SUCCESS = "UPDATE_QUIZ_SUCCESS";
 export const UPDATE_QUIZ_FAILED = "UPDATE_QUIZ_FAILED";
 
+// Table Actions
+export const QUIZ_TABLE = "QUIZ_TABLE";
+
 // Menu Actions
 export const MENU_OPEN = "MENU_OPEN";
 export const MENU_CLOSE = "MENU_CLOSE";

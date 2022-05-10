@@ -3,13 +3,15 @@ import {authReducer} from "./authReducer";
 import {menuReducer} from "./otherReducer";
 import {companyProfileUpdateReducer, companyRegistrationReducer} from "./companyReducer";
 import {quizReducer} from "./quizReducer";
+import {quizTableReducer} from "./tableReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
     menu: menuReducer,
     companyRegistration: companyRegistrationReducer,
     companyProfileUpdate: companyProfileUpdateReducer,
-    quiz: quizReducer
+    quiz: quizReducer,
+    quizTable: quizTableReducer
 });
 
 // Root State

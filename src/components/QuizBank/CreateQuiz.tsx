@@ -31,8 +31,7 @@ export function CreateQuiz() {
     const [quiz, setQuiz] = useState<IQuiz>({
         title: "",
         companyId: email,
-        questions: new Map<string, IQuestion>(),
-        createdDateTime: new Date()
+        questions: new Map<string, IQuestion>()
     });
 
     const question = useRef<IQuestion>({
