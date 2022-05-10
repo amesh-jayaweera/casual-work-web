@@ -37,8 +37,8 @@ export const quizReducer = (state : CrudState = initQuizState,
         case UPDATE_QUIZ_SUCCESS:
             return {
                 ...state,
-                type : CREATE_QUIZ_SUCCESS,
-                message : "Quiz has been created successfully!"
+                type : UPDATE_QUIZ_SUCCESS,
+                message : "Quiz has been updated successfully!"
             };
         case UPDATE_QUIZ_FAILED:
             return {

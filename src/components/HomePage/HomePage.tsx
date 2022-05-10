@@ -57,7 +57,9 @@ export function HomePage() {
               {
                   (location.hash === "#quiz/create" || location.hash.startsWith("#quiz/create/add-question?id=") ||
                   location.hash.startsWith("#quiz/create/delete-question?id=") ||
-                      location.hash.startsWith('#quiz/create/edit-question?id=')) &&
+                      location.hash.startsWith('#quiz/create/edit-question?id=') ||
+                  location.hash.startsWith('#quiz/update/question?id=') || location.hash
+                          .startsWith("#quiz/view/question?id=")) &&
                   <div className="pd-ltr-20 xs-pd-20-10">
                       <ContainerNavigation title={"Quiz Bank"} mainTitle={"Create Quiz"} mainNav={""}/>
                       <CreateQuiz/>

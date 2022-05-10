@@ -44,7 +44,7 @@ export const saveQuiz = (quiz: IQuiz): ThunkAction<void, RootState, null, CrudAc
     }
 };
 
-export const updateQuiz = (quiz : IQuiz): ThunkAction<void, RootState, null, CrudAction> => {
+export const updateQuiz = (quiz: IQuiz, docId: string): ThunkAction<void, RootState, null, CrudAction> => {
 
     let questions: IQuestion[] = [];
     quiz.questions.forEach((value => {
@@ -58,7 +58,7 @@ export const updateQuiz = (quiz : IQuiz): ThunkAction<void, RootState, null, Cru
     };
 
     return async dispatch => {
-        db.collection(quizCollectionPath).doc(_quiz.companyId).set({
+        db.collection(quizCollectionPath).doc(docId).set({
             title: _quiz.title,
             questions: _quiz.questions
         },{ merge: true })

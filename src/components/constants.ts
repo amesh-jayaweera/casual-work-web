@@ -11,5 +11,7 @@ export const locations : string[] = [
 export const locationsStartWith : string[] = [
     '#quiz/create/add-question?id=',
     '#quiz/create/delete-question?id=',
-    '#quiz/create/edit-question?id='
+    '#quiz/create/edit-question?id=',
+    '#quiz/update/question?id=',
+    '#quiz/view/question?id='
 ];

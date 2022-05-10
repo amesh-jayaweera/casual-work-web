@@ -20,10 +20,10 @@ const RenderViewEditActions = (id : string) => {
     return (
         <div className="row">
             <div className="col-6">
-                <a  href={`#jobs/schedule-job/view?id=${id}`}><div className="badge badge-dgreen text-white">View</div></a>
+                <a  href={`#quiz/view/question?id=${id}`}><div className="badge badge-dgreen text-white">View</div></a>
             </div>
             <div className="col-6">
-                <a href={`#jobs/schedule-job/edit?id=${id}`}><div className="badge badge-dyellow text-dark">Edit</div></a>
+                <a href={`#quiz/update/question?id=${id}`}><div className="badge badge-dyellow text-dark">Edit</div></a>
             </div>
         </div>
     )
