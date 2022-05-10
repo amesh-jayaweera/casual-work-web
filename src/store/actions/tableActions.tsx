@@ -45,6 +45,7 @@ export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions>
             let quiz : QuizListTable  = doc.data() as QuizListTable;
             count += 1;
             quiz.id = count;
+            quiz.numberOfQuestions = quiz.questions?.length || 0;
             quiz.action = RenderViewEditActions(doc.id);
             quizSets.push(quiz);
         });

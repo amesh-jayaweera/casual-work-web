@@ -126,6 +126,7 @@ export interface QuizListTable {
     companyId: string;
     title: string;
     numberOfQuestions: number;
+    questions: IQuestion[];
     action : any;
 }
 

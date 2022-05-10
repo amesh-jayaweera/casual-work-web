@@ -9,7 +9,7 @@ export function QuizTable() {
 
     const columns = [
         {
-            label: 'ID',
+            label: 'No.',
             name: 'id',
             options : {
                 filter : false
