@@ -136,4 +136,26 @@ export interface TableState  {
     unsubscribed? : any;
 }
 
+export interface IJob {
+    field: string;
+    title: string;
+    description: string;
+    district: string;
+    address: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
+    date: string;
+    shift: {
+        on: string;
+        off: string;
+    };
+    hourlyRate: number;
+    totalEstimatedCost: number;
+    status: string;
+    companyId: string;
+    skillTestId?: string;
+}
+
 
