@@ -16,6 +16,8 @@ import {
 import {Failure, Success} from "../../util/toasts";
 import {fire} from "../../index";
 import Skeleton from "react-loading-skeleton";
+import { confirmAlert } from "react-confirm-alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export function CreateQuiz() {
 
@@ -133,6 +135,35 @@ export function CreateQuiz() {
         }
     }
 
+    function onDelete() {
+        confirmAlert({
+            title: "Confirm Your Action",
+            message: `Are sure want to delete ?`,
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fire.firestore().collection("quiz_bank").doc(id)
+                            .delete()
+                            .then(()=> {
+                                Success("Quiz has been deleted successfully!");
+                                history.push("#quiz/bank");
+                            })
+                            .catch((error)=> {
+                                Failure(error as string);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        // do nothing
+                    }
+                }
+            ]
+        });
+    }
+
     return (
         <>
             {
@@ -232,8 +263,19 @@ export function CreateQuiz() {
                                 onClick={() => history.push(`#quiz/create/add-question?id=${uuidv4()}`)}
                         >Add Question
                         </button>
-                        {/*  apply processing param here for disabled */}
-                        <button className="btn btn-primary" disabled={false}
+                        {
+                            isUpdate.current.valueOf() && <>
+                            <button className="btn btn-outline-danger" disabled={loading}
+                                    onClick={() => {
+                                        onDelete();
+                                    }}
+                            >Delete
+                            </button>
+                                &nbsp;
+                                &nbsp;
+                            </>
+                        }
+                        <button className="btn btn-primary" disabled={loading}
                                 onClick={() => {
                                     onSubmit(isUpdate);
                                 }}

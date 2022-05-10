@@ -19,10 +19,10 @@ const quizCollectionPath = "quiz_bank";
 const RenderViewEditActions = (id : string) => {
     return (
         <div className="row">
-            <div className="col-6">
+            <div className="col-4">
                 <a  href={`#quiz/view/question?id=${id}`}><div className="badge badge-dgreen text-white">View</div></a>
             </div>
-            <div className="col-6">
+            <div className="col-4">
                 <a href={`#quiz/update/question?id=${id}`}><div className="badge badge-dyellow text-dark">Edit</div></a>
             </div>
         </div>
