@@ -219,7 +219,8 @@ export function PostJob() {
                                                     fieldReq: (!e.target.value || e.target.value === "None")
                                                 }))
                                             }}
-                                            disabled={isViewMode}
+
+
                                             value={job.field}
                                     >
                                         <option value="None">Select Job Field</option>
@@ -250,7 +251,7 @@ export function PostJob() {
                                                     titleReq : !e.target.value || e.target.value === "None"
                                                 }));
                                             }}
-                                            disabled={isViewMode} value={job.title}
+                                            value={job.title}
                                     >
                                         <option value="None">Select Job Category</option>
                                         {
@@ -322,7 +323,6 @@ export function PostJob() {
                                         <div className="form-group col-6">
                                             <label>Skill Test</label>
                                             <select className="custom-select"
-                                                    disabled={isViewMode}
                                                     onChange={(e) => {
                                                         setJob(prevState => ({
                                                             ...prevState,
