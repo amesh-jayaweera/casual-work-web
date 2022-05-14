@@ -160,4 +160,30 @@ export interface IJob {
     skillTestId?: string;
 }
 
+export interface IJobTable {
+    id: number;
+    field: string;
+    title: string;
+    description: string;
+    address: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
+    date: string;
+    shift: {
+        on: string;
+        off: string;
+    };
+    hourlyRate: number;
+    totalEstimatedCost: number;
+    status: string;
+    companyId: string;
+    skillTestId?: string;
+    action: any;
+    shiftOn: string;
+    shiftOff: string;
+    statusView: any;
+    locationView: any;
+}
 

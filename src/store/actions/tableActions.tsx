@@ -2,19 +2,34 @@ import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers/rootReducer";
 import {fire} from "../../index";
 import {
+    JOB_TABLE,
     LOADING, QUIZ_TABLE,
 } from "../actionTypes";
 import React from "react";
-import {QuizListTable, TableActions} from "../type";
+import {IJobTable, QuizListTable, TableActions} from "../type";
+import {OPEN} from "./jobActions";
 
 const quizCollectionPath = "quiz_bank";
+const jobCollectionPath = "jobs";
 
-// const RenderViewAction = (url : string) => {
-//
-//     return (
-//         <a  href={url}><div className="badge badge-dgreen text-white">View</div></a>
-// )
-// };
+const RenderOpenView = () => {
+    return (
+        <div className="badge badge-dpurple text-white">OPEN</div>
+    )
+};
+
+const RenderCloseView = () => {
+    return (
+        <div className="badge badge-dyellow text-white">Yellow</div>
+    )
+};
+
+const RenderViewAction = (id : string) => {
+
+    return (
+        <a  href={`#jobs/view/job?id=${id}`}><div className="badge badge-dgreen text-white">View</div></a>
+)
+};
 
 const RenderViewEditActions = (id : string) => {
     return (
@@ -53,6 +68,36 @@ export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions>
         dispatch({
             type : QUIZ_TABLE,
             data : quizSets
+        })
+    });
+};
+
+export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+
+    const db = fire.firestore();
+
+    dispatch({
+        type : LOADING,
+        data : []
+    });
+    let jobs : IJobTable[] = [];
+
+    db.collection(jobCollectionPath).get().then((querySnapshot) => {
+        let count = 0;
+        querySnapshot.forEach((doc) => {
+            let job : IJobTable  = doc.data() as IJobTable;
+            count += 1;
+            job.id = count;
+            job.action = RenderViewAction(doc.id);
+            job.shiftOn = job.shift.on;
+            job.shiftOff = job.shift.off;
+            job.statusView = job.status === OPEN ? RenderOpenView() : RenderCloseView();
+            jobs.push(job);
+        });
+
+        dispatch({
+            type : JOB_TABLE,
+            data : jobs
         })
     });
 };

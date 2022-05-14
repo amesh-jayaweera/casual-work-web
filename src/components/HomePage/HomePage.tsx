@@ -17,6 +17,7 @@ import {CreateQuiz} from "../QuizBank/CreateQuiz";
 import {QuizTable} from "../QuizBank/QuizTable";
 import {Payment} from "../Payment/Payments";
 import {PostJob} from "../Job/PostJob";
+import {Jobs} from "../Job/Jobs";
 
 export function HomePage() {
 
@@ -92,6 +93,7 @@ export function HomePage() {
                   (location.hash === '#jobs') &&
                   <div className="pd-ltr-20 xs-pd-20-10">
                       <ContainerNavigation title={"Job"} mainTitle={"Jobs"} mainNav={""}/>
+                      <Jobs/>
                   </div>
               }
               {

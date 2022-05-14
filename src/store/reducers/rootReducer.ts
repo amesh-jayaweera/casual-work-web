@@ -3,7 +3,7 @@ import {authReducer} from "./authReducer";
 import {menuReducer} from "./otherReducer";
 import {companyProfileUpdateReducer, companyRegistrationReducer} from "./companyReducer";
 import {quizReducer} from "./quizReducer";
-import {quizTableReducer} from "./tableReducer";
+import {jobReducer, quizTableReducer} from "./tableReducer";
 import {postJobReducer} from "./jobReducer";
 
 export const rootReducer = combineReducers({
@@ -13,7 +13,8 @@ export const rootReducer = combineReducers({
     companyProfileUpdate: companyProfileUpdateReducer,
     quiz: quizReducer,
     quizTable: quizTableReducer,
-    postJob: postJobReducer
+    postJob: postJobReducer,
+    jobTable: jobReducer
 });
 
 // Root State
