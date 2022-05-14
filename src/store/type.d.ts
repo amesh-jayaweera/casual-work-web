@@ -140,7 +140,6 @@ export interface IJob {
     field: string;
     title: string;
     description: string;
-    district: string;
     address: string;
     location: {
         latitude: number;
