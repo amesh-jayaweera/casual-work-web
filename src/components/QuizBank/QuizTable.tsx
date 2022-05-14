@@ -38,7 +38,10 @@ export function QuizTable() {
         },
         {
             label: 'Actions',
-            name : 'action'
+            name : 'action',
+            options : {
+                filter : false
+            }
         }
     ];
 
