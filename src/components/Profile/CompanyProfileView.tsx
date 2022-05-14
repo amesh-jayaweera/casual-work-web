@@ -13,6 +13,7 @@ import {
     COMPANY_PROFILE_UPDATE_SUCCESS
 } from "../../store/actionTypes";
 import {updateCompanyProfile} from "../../store/actions/companyActions";
+import {Rating} from "react-simple-star-rating";
 
 export function CompanyProfileView() {
 
@@ -96,6 +97,12 @@ export function CompanyProfileView() {
         }
     }
 
+    const [rating, setRating] = useState<number>(4) // initial rating value
+
+    const handleRating = (rate: number) => {
+        setRating(rate)
+    }
+
     if(loading) {
         return (
             <Skeleton count={20} duration={20}/>
@@ -115,6 +122,12 @@ export function CompanyProfileView() {
                                 </div>
                                 <h6 className="text-center text-muted">{company?.email}</h6>
                                 <h5 className="text-center h5 mb-0">{`${company?.name}`}</h5>
+                                <div className="text-center">
+                                    <Rating ratingValue={rating}
+                                            initialValue={rating}
+                                            onClick={handleRating}
+                                    />
+                                </div>
                             </div>
                             <div className="col-xl-4">
                                 <div className="form-group">
@@ -188,9 +201,6 @@ export function CompanyProfileView() {
                                     }
                                 </div>
                             </div>
-                        </div>
-                        <div className="row pd-t-30-l-30-r-30-b-0">
-
                         </div>
                         <div className="d-flex justify-content-end pd-t-0-l-30-r-30-b-30 pt-2">
                             <button className="btn btn-primary" onClick={()=> {onSubmit();}} disabled={processing}>
