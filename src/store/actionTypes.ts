@@ -27,6 +27,11 @@ export const CREATE_QUIZ_DEFAULT = "CREATE_QUIZ_DEFAULT";
 export const UPDATE_QUIZ_SUCCESS = "UPDATE_QUIZ_SUCCESS";
 export const UPDATE_QUIZ_FAILED = "UPDATE_QUIZ_FAILED";
 
+// Job Actions
+export const POST_JOB_SUCCESS = "POST_JOB_SUCCESS";
+export const POST_JOB_FAILED = "POST_JOB_FAILED";
+export const POST_JOB_DEFAULT = "POST_JOB_DEFAULT";
+
 // Table Actions
 export const QUIZ_TABLE = "QUIZ_TABLE";
 

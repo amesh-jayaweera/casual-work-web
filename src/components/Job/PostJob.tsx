@@ -1,12 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import Skeleton from "react-loading-skeleton";
-// import {useHistory} from "react-router";
+import {useHistory} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {IJob, QuizListTable} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
 import {validateTime} from "../../util/regex";
 import {ValidateLatitude, ValidateLongitude, ValidateShifts} from "../../util/validation";
 import {getQuizSets} from "../../store/actions/tableActions";
+import {CLOSED, postJob} from "../../store/actions/jobActions";
+import {
+    POST_JOB_DEFAULT,
+    POST_JOB_FAILED,
+    POST_JOB_SUCCESS
+} from "../../store/actionTypes";
+import {Failure, Success} from "../../util/toasts";
 
 export const defaultShiftOnTime : string = "08:00";
 export const defaultShiftOffTime : string = "17:00";
@@ -37,11 +44,12 @@ export function PostJob() {
     const today = new Date();
     today.setDate(today.getDate() + 1)
     const isViewMode = useRef<boolean>(false);
-    // const history = useHistory();
+    const history = useHistory();
     const dispatch = useDispatch();
     const { user : {email} } = useSelector((state: RootState) => state.auth);
     const [titles, setTitles] = useState<string[]>([]);
     const {loading, data } = useSelector((state: RootState) => state.quizTable);
+    const {type, message, error } = useSelector((state: RootState) => state.postJob);
     useEffect(() => {
         dispatch(getQuizSets());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,7 +100,42 @@ export function PostJob() {
         }));
     },[job.hourlyRate, job.shift.on, job.shift.off]);
 
+    useEffect(() => {
+        if (type === POST_JOB_SUCCESS) {
+            Success(message as string);
+            dispatch({
+                type: POST_JOB_DEFAULT
+            });
+            history.push("#jobs");
+        } else if(type === POST_JOB_FAILED) {
+            Failure(error as string);
+            dispatch({
+                type : POST_JOB_DEFAULT
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[type, error, message, dispatch]);
+
     function onSubmit() {
+        setValidation({
+            fieldReq: !job.field || job.field === "None",
+            titleReq: !job.field || job.field === "None",
+            descriptionReq: !job.description,
+            addressReq: !job.address,
+            dateReq: !job.date,
+            hourlyRateReq: job.hourlyRate <= 0
+        });
+
+        if(validateTime(job.shift.on) && validateTime(job.shift.off) && ValidateShifts(job.shift.on, job.shift.off)
+            && ValidateLatitude(job.location.latitude) && ValidateLongitude(job.location.longitude)
+            && !(new Date(job.date).getTime() < new Date().getTime()) && !!job.field && FIELDS.includes(job.field)
+            && !!job.title && TITLES[job.field].includes(job.title) && !!job.description && !!job.address
+            && job.date && job.hourlyRate > 0) {
+            dispatch(postJob(job));
+        }
+    }
+
+    function onClose() {
 
     }
 
@@ -265,7 +308,7 @@ export function PostJob() {
                                                     !!data && data.map(value  => {
                                                         const quiz: QuizListTable = value as QuizListTable;
                                                         return (
-                                                            <option key={quiz.id}>
+                                                            <option key={quiz.id} value={quiz.id}>
                                                                 {quiz.title}
                                                             </option>
                                                         )
@@ -483,6 +526,14 @@ export function PostJob() {
                                     Post
                                 </button>
                             </>
+                        }
+                        {
+                            job.status !== CLOSED && isViewMode.current &&
+                            <button type="button" className="btn btn-danger mr-3"
+                                    onClick={() => onClose()}
+                            >
+                                Close
+                            </button>
                         }
                     </div>
                 </div>
