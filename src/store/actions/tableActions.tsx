@@ -12,6 +12,19 @@ import {OPEN} from "./jobActions";
 const quizCollectionPath = "quiz_bank";
 const jobCollectionPath = "jobs";
 
+const RenderLocation = (latitude: number, longitude: number) => {
+    return (
+        <iframe
+            src={`https://maps.google.com/maps?q=${latitude},
+                                            ${longitude}&hl=es;z=14&amp&output=embed`}
+            width="100%"
+            loading="lazy"
+            className="iframe-map"
+            title="Map View"
+        />
+    )
+}
+
 const RenderOpenView = () => {
     return (
         <div className="badge badge-dpurple text-white">OPEN</div>
@@ -92,6 +105,7 @@ export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => 
             job.shiftOn = job.shift.on;
             job.shiftOff = job.shift.off;
             job.statusView = job.status === OPEN ? RenderOpenView() : RenderCloseView();
+            job.locationView = RenderLocation(job.location.latitude, job.location.longitude);
             jobs.push(job);
         });
 

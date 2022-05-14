@@ -66,6 +66,22 @@ export function Jobs() {
             }
         },
         {
+            label: 'Address',
+            name: 'address',
+            options: {
+                filter: false,
+                display: false
+            }
+        },
+        {
+            label: 'Location',
+            name: 'locationView',
+            options: {
+                filter: false,
+                display: false
+            }
+        },
+        {
             label: 'Status',
             name: 'statusView',
             options : {
