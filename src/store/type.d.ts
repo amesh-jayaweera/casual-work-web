@@ -1,4 +1,4 @@
-import {SET_ERROR, SET_LOADING, SET_SUCCESS, SET_USER, SIGN_OUT} from "./store/actionTypes";
+import {SET_ERROR, SET_LOADING, SET_SUCCESS, SET_USER, SIGN_OUT} from "./actionTypes";
 
 // Auth Models
 export interface LoggedUser {
@@ -131,6 +131,7 @@ export interface QuizListTable {
     questions: IQuestion[];
     totalTime: number;
     action : any;
+    docId: string;
 }
 
 export interface TableState  {

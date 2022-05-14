@@ -189,6 +189,9 @@ export function CompanyProfileView() {
                                 </div>
                             </div>
                         </div>
+                        <div className="row pd-t-30-l-30-r-30-b-0">
+
+                        </div>
                         <div className="d-flex justify-content-end pd-t-0-l-30-r-30-b-30 pt-2">
                             <button className="btn btn-primary" onClick={()=> {onSubmit();}} disabled={processing}>
                                 Update</button>

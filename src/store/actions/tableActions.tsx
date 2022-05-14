@@ -72,6 +72,7 @@ export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions>
         querySnapshot.forEach((doc) => {
             let quiz : QuizListTable  = doc.data() as QuizListTable;
             count += 1;
+            quiz.docId = doc.id;
             quiz.id = count;
             quiz.numberOfQuestions = quiz.questions?.length || 0;
             quiz.action = RenderViewEditActions(doc.id);

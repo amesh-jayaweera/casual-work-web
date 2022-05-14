@@ -336,7 +336,7 @@ export function PostJob() {
                                                     !!data && data.map(value  => {
                                                         const quiz: QuizListTable = value as QuizListTable;
                                                         return (
-                                                            <option key={quiz.id} value={quiz.id}>
+                                                            <option key={quiz.id} value={quiz.docId}>
                                                                 {quiz.title}
                                                             </option>
                                                         )
