@@ -90,6 +90,13 @@ export function HomePage() {
                   </div>
               }
               {
+                  (location.hash.startsWith('#jobs/view/job?id=')) &&
+                  <div className="pd-ltr-20 xs-pd-20-10">
+                      <ContainerNavigation title={"Job"} mainTitle={"Post Job"} mainNav={""}/>
+                      <PostJob/>
+                  </div>
+              }
+              {
                   (location.hash === '#jobs') &&
                   <div className="pd-ltr-20 xs-pd-20-10">
                       <ContainerNavigation title={"Job"} mainTitle={"Jobs"} mainNav={""}/>

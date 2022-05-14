@@ -14,5 +14,6 @@ export const locationsStartWith : string[] = [
     '#quiz/create/delete-question?id=',
     '#quiz/create/edit-question?id=',
     '#quiz/update/question?id=',
-    '#quiz/view/question?id='
+    '#quiz/view/question?id=',
+    '#jobs/view/job?id='
 ];

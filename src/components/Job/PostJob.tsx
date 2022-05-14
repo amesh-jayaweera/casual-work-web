@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import Skeleton from "react-loading-skeleton";
-import {useHistory} from "react-router";
+import {useHistory, useLocation} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {IJob, QuizListTable} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
@@ -14,6 +14,7 @@ import {
     POST_JOB_SUCCESS
 } from "../../store/actionTypes";
 import {Failure, Success} from "../../util/toasts";
+import {fire} from "../../index";
 
 export const defaultShiftOnTime : string = "08:00";
 export const defaultShiftOffTime : string = "17:00";
@@ -41,15 +42,17 @@ export const TITLES: {[field: string]: string[]} = {
 
 export function PostJob() {
 
+    const location = useLocation();
     const today = new Date();
     today.setDate(today.getDate() + 1)
-    const isViewMode = useRef<boolean>(false);
+    const [isViewMode, setIsViewMode] = useState<boolean>(false);
     const history = useHistory();
     const dispatch = useDispatch();
     const { user : {email} } = useSelector((state: RootState) => state.auth);
     const [titles, setTitles] = useState<string[]>([]);
     const {loading, data } = useSelector((state: RootState) => state.quizTable);
     const {type, message, error } = useSelector((state: RootState) => state.postJob);
+    const dataLoading = useRef<boolean>(false);
     useEffect(() => {
         dispatch(getQuizSets());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,6 +87,31 @@ export function PostJob() {
         dateReq: false,
         hourlyRateReq: false
     });
+
+    useEffect(()=> {
+        dataLoading.current = true;
+        let docID = location.hash.split('#jobs/view/job?id=');
+        if(docID.length >= 2) {
+            fire.firestore().collection("jobs").doc(docID[1].trim()).get()
+                .then((doc) => {
+                    if(doc.exists && (doc.data() as IJob).companyId === email) {
+                        let data: IJob = doc.data() as IJob;
+                        setJob(data);
+                        setIsViewMode(true);
+                        dataLoading.current = false;
+                    } else {
+                        // not found
+                        dataLoading.current = false;
+                        history.push('#dashbord/not-found');
+                    }
+                });
+        } else if(location.hash === "#jobs/post-job"){
+            setIsViewMode(false);
+            dataLoading.current = false;
+        }
+        dataLoading.current = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     useEffect(()=> {
         if(job.field !== "None")
@@ -165,11 +193,11 @@ export function PostJob() {
     return (
         <>
             {
-                loading &&
+                (loading || dataLoading.current.valueOf()) &&
                 <Skeleton count={20} duration={20}/>
             }
             {
-                !loading &&
+                !loading && !dataLoading.current.valueOf() &&
                 <div className="pd-20 card-box mb-30">
                     {/*  form */}
                     <form className="needs-validation">
@@ -191,7 +219,7 @@ export function PostJob() {
                                                     fieldReq: (!e.target.value || e.target.value === "None")
                                                 }))
                                             }}
-                                            disabled={isViewMode.current}
+                                            disabled={isViewMode}
                                             value={job.field}
                                     >
                                         <option value="None">Select Job Field</option>
@@ -222,7 +250,7 @@ export function PostJob() {
                                                     titleReq : !e.target.value || e.target.value === "None"
                                                 }));
                                             }}
-                                            disabled={isViewMode.current} value={job.title}
+                                            disabled={isViewMode} value={job.title}
                                     >
                                         <option value="None">Select Job Category</option>
                                         {
@@ -243,7 +271,7 @@ export function PostJob() {
                                     <label>Job Description<sup>*</sup></label>
                                     <textarea className="form-control"
                                               value={job.description}
-                                              disabled={isViewMode.current}
+                                              disabled={isViewMode}
                                               onChange={(e)=> {
                                                   setJob(prevState => ({
                                                       ...prevState,
@@ -269,7 +297,7 @@ export function PostJob() {
                                             <input className="form-control  date-picker"
                                                    placeholder="Date"
                                                    type="date"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    value={job.date} data-date-format="DD MMMM YYYY"
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
@@ -294,7 +322,7 @@ export function PostJob() {
                                         <div className="form-group col-6">
                                             <label>Skill Test</label>
                                             <select className="custom-select"
-                                                    disabled={isViewMode.current}
+                                                    disabled={isViewMode}
                                                     onChange={(e) => {
                                                         setJob(prevState => ({
                                                             ...prevState,
@@ -326,7 +354,7 @@ export function PostJob() {
                                             <input className="form-control time-picker-default"
                                                    type="time"
                                                    placeholder="Shift On Time"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
                                                            ...prevState,
@@ -351,7 +379,7 @@ export function PostJob() {
                                             <label>Shift Off Time<sup>*</sup></label>
                                             <input className="form-control time-picker-default"
                                                    type="time"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    placeholder="Shift Off Time"
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
@@ -390,7 +418,7 @@ export function PostJob() {
                                             <input className="form-control time-picker-default"
                                                    type="number"
                                                    placeholder="Hourly Rate (LKR)"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
                                                            ...prevState,
@@ -428,7 +456,7 @@ export function PostJob() {
                                     <label>Address<sup>*</sup></label>
                                     <textarea className="form-control"
                                               value={job.address}
-                                              disabled={isViewMode.current}
+                                              disabled={isViewMode}
                                               onChange={(e)=> {
                                                   setJob(prevState => ({
                                                       ...prevState,
@@ -454,7 +482,7 @@ export function PostJob() {
                                             <input className="form-control"
                                                    placeholder="Latitude"
                                                    type="number"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    value={job.location.latitude} required
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
@@ -477,7 +505,7 @@ export function PostJob() {
                                             <input className="form-control"
                                                    placeholder="Longitude"
                                                    type="number"
-                                                   disabled={isViewMode.current}
+                                                   disabled={isViewMode}
                                                    value={job.location.longitude} required
                                                    onChange={(e)=> {
                                                        setJob(prevState => ({
@@ -513,7 +541,7 @@ export function PostJob() {
                     {/* end form */}
                     <div className="d-flex justify-content-end">
                         {
-                            !isViewMode.current &&
+                            !isViewMode &&
                             <>
                                 <button type="reset" className="btn btn-danger mr-3"
                                         onClick={() => onClear()}
@@ -528,7 +556,7 @@ export function PostJob() {
                             </>
                         }
                         {
-                            job.status !== CLOSED && isViewMode.current &&
+                            job.status !== CLOSED && isViewMode &&
                             <button type="button" className="btn btn-danger mr-3"
                                     onClick={() => onClose()}
                             >
