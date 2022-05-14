@@ -19,7 +19,7 @@ import Skeleton from "react-loading-skeleton";
 import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-export function CreateQuiz() {
+export function CreateQuiz(): JSX.Element {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -171,7 +171,7 @@ export function CreateQuiz() {
         <>
             {
                 loading &&
-                <Skeleton count={20} duration={20}></Skeleton>
+                <Skeleton count={20} duration={20}/>
             }
             { !loading &&
                 <>

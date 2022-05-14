@@ -40,7 +40,7 @@ export const TITLES: {[field: string]: string[]} = {
     ]
 };
 
-export function PostJob() {
+export function PostJob(): JSX.Element {
 
     const location = useLocation();
     const today = new Date();
@@ -194,7 +194,7 @@ export function PostJob() {
         <>
             {
                 (loading || dataLoading.current.valueOf()) &&
-                <Skeleton count={20} duration={20}></Skeleton>
+                <Skeleton count={20} duration={20}/>
             }
             {
                 !loading && !dataLoading.current.valueOf() &&

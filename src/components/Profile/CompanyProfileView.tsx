@@ -15,7 +15,7 @@ import {
 import {updateCompanyProfile} from "../../store/actions/companyActions";
 import {Rating} from "react-simple-star-rating";
 
-export function CompanyProfileView() {
+export function CompanyProfileView(): JSX.Element {
 
     const history = useHistory();
     const { user : {email} } = useSelector((state: RootState) => state.auth);
@@ -105,14 +105,14 @@ export function CompanyProfileView() {
 
     if(loading) {
         return (
-            <Skeleton count={20} duration={20}></Skeleton>
+            <Skeleton count={20} duration={20}/>
         )
     }
 
     return (
         <div className="mb-30">
             <div className="row">
-                <div className="col-lg-9 mb-30">
+                <div className="col-lg-12 mb-30">
                     <div className="card-box">
                         <div className="row pd-t-30-l-30-r-30-b-0">
                             <div className="col-xl-4">
