@@ -194,7 +194,7 @@ export function PostJob() {
         <>
             {
                 (loading || dataLoading.current.valueOf()) &&
-                <Skeleton count={20} duration={20}/>
+                <Skeleton count={20} duration={20}></Skeleton>
             }
             {
                 !loading && !dataLoading.current.valueOf() &&

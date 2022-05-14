@@ -171,7 +171,7 @@ export function CreateQuiz() {
         <>
             {
                 loading &&
-                <Skeleton count={20} duration={20}/>
+                <Skeleton count={20} duration={20}></Skeleton>
             }
             { !loading &&
                 <>

@@ -105,7 +105,7 @@ export function CompanyProfileView() {
 
     if(loading) {
         return (
-            <Skeleton count={20} duration={20}/>
+            <Skeleton count={20} duration={20}></Skeleton>
         )
     }
 
