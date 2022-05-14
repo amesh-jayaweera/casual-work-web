@@ -107,12 +107,14 @@ export interface IQuiz {
     title: string;
     companyId: string;
     questions: Map<string, IQuestion>;
+    totalTime: number;
 }
 
 export interface IQuizStore {
     title: string;
     companyId: string;
     questions: IQuestion[];
+    totalTime: number;
 }
 
 type TableActions = {
@@ -127,6 +129,7 @@ export interface QuizListTable {
     title: string;
     numberOfQuestions: number;
     questions: IQuestion[];
+    totalTime: number;
     action : any;
 }
 

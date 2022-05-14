@@ -38,7 +38,8 @@ export function CreateQuiz() {
     const [quiz, setQuiz] = useState<IQuiz>({
         title: "",
         companyId: email,
-        questions: new Map<string, IQuestion>()
+        questions: new Map<string, IQuestion>(),
+        totalTime: 1
     });
 
     const question = useRef<IQuestion>({
@@ -70,10 +71,12 @@ export function CreateQuiz() {
                         let _data: IQuiz = {
                             title: "",
                             companyId: email,
-                            questions: new Map<string, IQuestion>()
+                            questions: new Map<string, IQuestion>(),
+                            totalTime: 1
                         };
                         _data.title = data.title;
                         _data.companyId = email;
+                        _data.totalTime = data.totalTime;
                         let _questions = new Map<string, IQuestion>();
                         for(const q of data.questions) {
                             _questions.set(uuidv4(), q);
@@ -199,6 +202,30 @@ export function CreateQuiz() {
                                     }
                                 </div>
                             </div>
+
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="">Total Time Duration (Minutes)<sup>*</sup></label>
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder="Total Time Duration (Minutes)"
+                                           required
+                                           disabled={isViewOnly.current.valueOf()}
+                                           value={quiz.totalTime}
+                                           onChange={(e) => {
+                                               setQuiz(prevState => ({
+                                                   ...prevState,
+                                                   totalTime: Number(e.target.value)
+                                               }));
+                                           }}
+                                    />
+                                    {
+                                        quiz.totalTime < 1 &&
+                                        <small className="invalid-feedback">Minimum time duration is one minute!</small>
+                                    }
+                                </div>
+                            </div>
+
                         </div>
                     </form>
 

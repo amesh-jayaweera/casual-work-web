@@ -30,6 +30,13 @@ export function QuizTable() {
             }
         },
         {
+            label: 'Total Time (Minutes)',
+            name: 'totalTime',
+            options : {
+                filter : false
+            }
+        },
+        {
             label: 'Actions',
             name : 'action'
         }

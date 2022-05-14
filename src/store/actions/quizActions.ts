@@ -23,7 +23,8 @@ export const saveQuiz = (quiz: IQuiz): ThunkAction<void, RootState, null, CrudAc
     const _quiz: IQuizStore = {
         title: quiz.title,
         companyId: quiz.companyId,
-        questions: questions
+        questions: questions,
+        totalTime: quiz.totalTime
     };
 
     return async dispatch => {
@@ -54,7 +55,8 @@ export const updateQuiz = (quiz: IQuiz, docId: string): ThunkAction<void, RootSt
     const _quiz: IQuizStore = {
         title: quiz.title,
         companyId: quiz.companyId,
-        questions: questions
+        questions: questions,
+        totalTime: quiz.totalTime
     };
 
     return async dispatch => {
