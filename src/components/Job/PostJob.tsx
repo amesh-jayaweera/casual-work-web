@@ -453,22 +453,37 @@ export function PostJob() {
                                         </div>
                                     </div>
                                 </div>
+
+                                <iframe
+                                    src={`https://maps.google.com/maps?q=${job.location.latitude},
+                                            ${job.location.longitude}&hl=es;z=14&amp&output=embed`}
+                                    width="100%"
+                                    height="450"
+                                    loading="lazy"
+                                    className="iframe-map"
+                                    title="Map View"
+                                />
                             </div>
                         </div>
                     </form>
 
                     {/* end form */}
                     <div className="d-flex justify-content-end">
-                        <button type="reset" className="btn btn-danger mr-3"
-                                onClick={() => onClear()}
-                        >
-                            Clear
-                        </button>
-                        <button type="button" className="btn btn-primary"
-                                onClick={() => {onSubmit()}}
-                        >
-                            Post
-                        </button>
+                        {
+                            !isViewMode.current &&
+                            <>
+                                <button type="reset" className="btn btn-danger mr-3"
+                                        onClick={() => onClear()}
+                                >
+                                    Clear
+                                </button>
+                                <button type="button" className="btn btn-primary"
+                                    onClick={() => {onSubmit()}}
+                                >
+                                    Post
+                                </button>
+                            </>
+                        }
                     </div>
                 </div>
             }
