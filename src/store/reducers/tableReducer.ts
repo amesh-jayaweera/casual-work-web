@@ -3,7 +3,7 @@ import {
 } from "../type";
 import {
     JOB_TABLE,
-    LOADING,
+    LOADING, PAYMENT_HISTORY_TABLE,
     QUIZ_TABLE
 } from "../actionTypes";
 
@@ -38,6 +38,29 @@ const initJobState : TableState = {
 export const jobReducer = ( state: TableState = initJobState, action: TableActions) => {
     switch (action.type) {
         case JOB_TABLE :
+            return  {
+                ...state,
+                loading: false,
+                data : action.data
+            };
+        case LOADING:
+            return {
+                ...state,
+                loading : true,
+                data : []
+            };
+        default: return state
+    }
+};
+
+const initPaymentHistoryState : TableState = {
+    loading : true,
+    data : []
+};
+
+export const paymentHistoryReducer = ( state: TableState = initPaymentHistoryState, action: TableActions) => {
+    switch (action.type) {
+        case PAYMENT_HISTORY_TABLE:
             return  {
                 ...state,
                 loading: false,

@@ -6,11 +6,12 @@ import {
     LOADING, QUIZ_TABLE,
 } from "../actionTypes";
 import React from "react";
-import {IJobTable, QuizListTable, TableActions} from "../type";
+import {IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
 import {OPEN} from "./jobActions";
 
 const quizCollectionPath = "quiz_bank";
 const jobCollectionPath = "jobs";
+const paymentHistoryPath = "payments";
 
 const RenderLocation = (latitude: number, longitude: number) => {
     return (
@@ -113,6 +114,29 @@ export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => 
         dispatch({
             type : JOB_TABLE,
             data : jobs
+        })
+    });
+};
+
+export const getPaymentHistory = () : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+
+    const db = fire.firestore();
+
+    dispatch({
+        type : LOADING,
+        data : []
+    });
+    let history : IPaymentHistoryTable[] = [];
+
+    db.collection(paymentHistoryPath).get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            let payment: IPaymentHistoryTable  = doc.data() as IPaymentHistoryTable;
+            history.push(payment);
+        });
+
+        dispatch({
+            type : JOB_TABLE,
+            data : history
         })
     });
 };

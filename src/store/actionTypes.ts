@@ -35,6 +35,7 @@ export const POST_JOB_DEFAULT = "POST_JOB_DEFAULT";
 // Table Actions
 export const QUIZ_TABLE = "QUIZ_TABLE";
 export const JOB_TABLE = "JOB_TABLE";
+export const PAYMENT_HISTORY_TABLE = "PAYMENT_HISTORY_TABLE";
 
 // Menu Actions
 export const MENU_OPEN = "MENU_OPEN";

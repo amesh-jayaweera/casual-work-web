@@ -188,3 +188,13 @@ export interface IJobTable {
     locationView: any;
 }
 
+export interface IPaymentHistoryTable {
+    accountNo: number;
+    amount: number;
+    bankName: string;
+    branch: string;
+    dateTime: Date;
+    jobId: string;
+    userId: string;
+}
+
