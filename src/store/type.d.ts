@@ -189,6 +189,7 @@ export interface IJobTable {
 }
 
 export interface IPaymentHistoryTable {
+    fullName: string;
     accountNo: number;
     amount: number;
     bankName: string;
