@@ -10,6 +10,7 @@ console.error = () => {};
 
 export function Payment() {
 
+    const { user : {email} } = useSelector((state: RootState) => state.auth);
     let date_from  = new Date();
     let date_to = new Date();
     date_to.setDate(date_to.getDate()-7);
@@ -127,7 +128,7 @@ export function Payment() {
     ];
 
     useEffect(() => {
-        dispatch(getPaymentHistory());
+        dispatch(getPaymentHistory(email));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 

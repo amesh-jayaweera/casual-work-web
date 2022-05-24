@@ -56,7 +56,7 @@ export function PostJob(): JSX.Element {
     const {type, message, error } = useSelector((state: RootState) => state.postJob);
     const dataLoading = useRef<boolean>(false);
     useEffect(() => {
-        dispatch(getQuizSets());
+        dispatch(getQuizSets(email));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 

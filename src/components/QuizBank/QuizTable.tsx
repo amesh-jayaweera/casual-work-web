@@ -46,10 +46,11 @@ export function QuizTable() {
     ];
 
     const dispatch = useDispatch();
+    const { user : {email} } = useSelector((state: RootState) => state.auth);
     const {loading, data } = useSelector((state: RootState) => state.quizTable);
 
     useEffect(() => {
-        dispatch(getQuizSets());
+        dispatch(getQuizSets(email));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 

@@ -58,7 +58,7 @@ const RenderViewEditActions = (id : string) => {
     )
 };
 
-export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+export const getQuizSets = (companyId: string) : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
     const db = fire.firestore();
 
@@ -68,7 +68,10 @@ export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions>
     });
     let quizSets : QuizListTable[] = [];
 
-    db.collection(quizCollectionPath).get().then((querySnapshot) => {
+    db.collection(quizCollectionPath)
+        .where("companyId","==", companyId)
+        .get()
+        .then((querySnapshot) => {
         let count = 0;
         querySnapshot.forEach((doc) => {
             let quiz : QuizListTable  = doc.data() as QuizListTable;
@@ -87,7 +90,7 @@ export const getQuizSets = () : ThunkAction<void, RootState, null, TableActions>
     });
 };
 
-export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+export const getJobs = (companyId: string) : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
     const db = fire.firestore();
 
@@ -97,7 +100,10 @@ export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => 
     });
     let jobs : IJobTable[] = [];
 
-    db.collection(jobCollectionPath).get().then((querySnapshot) => {
+    db.collection(jobCollectionPath)
+        .where("companyId","==", companyId)
+        .get()
+        .then((querySnapshot) => {
         let count = 0;
         querySnapshot.forEach((doc) => {
             let job : IJobTable  = doc.data() as IJobTable;
@@ -118,7 +124,7 @@ export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => 
     });
 };
 
-export const getPaymentHistory = () : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
     const db = fire.firestore();
 
@@ -128,7 +134,10 @@ export const getPaymentHistory = () : ThunkAction<void, RootState, null, TableAc
     });
     let history : IPaymentHistoryTable[] = [];
 
-    db.collection(paymentHistoryPath).get().then((querySnapshot) => {
+    db.collection(paymentHistoryPath)
+        .where("companyId","==", companyId)
+        .get()
+        .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             let payment: IPaymentHistoryTable  = doc.data() as IPaymentHistoryTable;
             payment.dateTime = new Date(doc.data()['dateTime'].toDate());

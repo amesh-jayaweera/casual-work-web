@@ -98,10 +98,12 @@ export function Jobs() {
     ];
 
     const dispatch = useDispatch();
+    const { user : {email} } = useSelector((state: RootState) => state.auth);
     const {loading, data } = useSelector((state: RootState) => state.jobTable);
 
+
     useEffect(() => {
-        dispatch(getJobs());
+        dispatch(getJobs(email));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
