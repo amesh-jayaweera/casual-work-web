@@ -15,6 +15,7 @@ import {
 } from "../../store/actionTypes";
 import {Failure, Success} from "../../util/toasts";
 import {fire} from "../../index";
+import {Spinner} from "react-bootstrap";
 
 export const defaultShiftOnTime : string = "08:00";
 export const defaultShiftOffTime : string = "17:00";
@@ -42,6 +43,7 @@ export const TITLES: {[field: string]: string[]} = {
 
 export function PostJob(): JSX.Element {
 
+    const [mapIsLoading, setMapIsLoading] = useState<boolean>(true);
     const location = useLocation();
     const today = new Date();
     today.setDate(today.getDate() + 1)
@@ -529,15 +531,27 @@ export function PostJob(): JSX.Element {
                                     </div>
                                 </div>
 
-                                <iframe
-                                    src={`https://maps.google.com/maps?q=${job.location.latitude},
-                                            ${job.location.longitude}&hl=es;z=14&amp&output=embed`}
-                                    width="100%"
-                                    height="450"
-                                    loading="lazy"
-                                    className="iframe-map"
-                                    title="Map View"
-                                />
+                                <div>
+                                    {
+                                        (mapIsLoading ? (<Spinner animation="grow" className="map-view"/>) : null)
+
+                                    }
+
+                                    <iframe
+                                        src={`https://maps.google.com/maps?q=${job.location.latitude},
+                                                ${job.location.longitude}&hl=es;z=14&amp&output=embed`}
+                                        width="100%"
+                                        height="450"
+                                        loading="lazy"
+                                        className="iframe-map"
+                                        title="Map View"
+                                        onLoad={()=> {
+                                            setMapIsLoading(false);
+                                        }}
+                                    />
+
+
+                                </div>
                             </div>
                         </div>
                     </form>
