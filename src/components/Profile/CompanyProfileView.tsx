@@ -13,7 +13,7 @@ import {
     COMPANY_PROFILE_UPDATE_SUCCESS
 } from "../../store/actionTypes";
 import {updateCompanyProfile} from "../../store/actions/companyActions";
-import {Rating} from "react-simple-star-rating";
+import {StarRatingView} from "../Common/Other/StarRatingView";
 
 export function CompanyProfileView(): JSX.Element {
 
@@ -97,12 +97,6 @@ export function CompanyProfileView(): JSX.Element {
         }
     }
 
-    const [rating, setRating] = useState<number>(4) // initial rating value
-
-    const handleRating = (rate: number) => {
-        setRating(rate)
-    }
-
     if(loading) {
         return (
             <Skeleton count={20} duration={20}/>
@@ -123,10 +117,11 @@ export function CompanyProfileView(): JSX.Element {
                                 <h6 className="text-center text-muted">{company?.email}</h6>
                                 <h5 className="text-center h5 mb-0">{`${company?.name}`}</h5>
                                 <div className="text-center">
-                                    <Rating ratingValue={rating}
-                                            initialValue={rating}
-                                            onClick={handleRating}
-                                    />
+                                    {/*<Rating ratingValue={rating}*/}
+                                    {/*        initialValue={rating}*/}
+                                    {/*        onClick={handleRating}*/}
+                                    {/*/>*/}
+                                    <StarRatingView ratingNumber={4}/>
                                 </div>
                             </div>
                             <div className="col-xl-4">
