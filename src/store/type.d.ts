@@ -197,7 +197,8 @@ export interface IPaymentHistoryTable {
     dateTime: any;
     jobId: string;
     userId: string;
-    dateTimeStr: string;
+    date: string;
+    time: string;
     status: any;
 }
 

@@ -132,7 +132,8 @@ export const getPaymentHistory = () : ThunkAction<void, RootState, null, TableAc
         querySnapshot.forEach((doc) => {
             let payment: IPaymentHistoryTable  = doc.data() as IPaymentHistoryTable;
             payment.dateTime = new Date(doc.data()['dateTime'].toDate());
-            payment.dateTimeStr = payment.dateTime.toLocaleString();
+            payment.date = payment.dateTime?.toISOString().split('T')[0] || "";
+            payment.time = payment.dateTime.toLocaleTimeString();
             payment.status = RenderViewAction("jobs/view/job", payment.jobId, "View Job")
             history.push(payment);
         });
