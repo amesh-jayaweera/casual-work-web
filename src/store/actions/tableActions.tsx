@@ -3,7 +3,7 @@ import {RootState} from "../reducers/rootReducer";
 import {fire} from "../../index";
 import {
     JOB_TABLE,
-    LOADING, QUIZ_TABLE,
+    LOADING, PAYMENT_HISTORY_TABLE, QUIZ_TABLE,
 } from "../actionTypes";
 import React from "react";
 import {IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
@@ -38,10 +38,10 @@ const RenderCloseView = () => {
     )
 };
 
-const RenderViewAction = (id : string) => {
+const RenderViewAction = (basePath: string, id : string, title: string) => {
 
     return (
-        <a  href={`#jobs/view/job?id=${id}`}><div className="badge badge-dgreen text-white">View</div></a>
+        <a  href={`#${basePath}?id=${id}`}><div className="badge badge-dgreen text-white">{ title }</div></a>
 )
 };
 
@@ -103,7 +103,7 @@ export const getJobs = () : ThunkAction<void, RootState, null, TableActions> => 
             let job : IJobTable  = doc.data() as IJobTable;
             count += 1;
             job.id = count;
-            job.action = RenderViewAction(doc.id);
+            job.action = RenderViewAction("jobs/view/job", doc.id, "View");
             job.shiftOn = job.shift.on;
             job.shiftOff = job.shift.off;
             job.statusView = job.status === OPEN ? RenderOpenView() : RenderCloseView();
@@ -131,11 +131,14 @@ export const getPaymentHistory = () : ThunkAction<void, RootState, null, TableAc
     db.collection(paymentHistoryPath).get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             let payment: IPaymentHistoryTable  = doc.data() as IPaymentHistoryTable;
+            payment.dateTime = new Date(doc.data()['dateTime'].toDate());
+            payment.dateTimeStr = payment.dateTime.toLocaleString();
+            payment.status = RenderViewAction("jobs/view/job", payment.jobId, "View Job")
             history.push(payment);
         });
 
         dispatch({
-            type : JOB_TABLE,
+            type : PAYMENT_HISTORY_TABLE,
             data : history
         })
     });

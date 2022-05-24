@@ -91,20 +91,24 @@ export function PostJob(): JSX.Element {
     useEffect(()=> {
         dataLoading.current = true;
         let docID = location.hash.split('#jobs/view/job?id=');
-        if(docID.length >= 2) {
-            fire.firestore().collection("jobs").doc(docID[1].trim()).get()
-                .then((doc) => {
-                    if(doc.exists && (doc.data() as IJob).companyId === email) {
-                        let data: IJob = doc.data() as IJob;
-                        setJob(data);
-                        setIsViewMode(true);
-                        dataLoading.current = false;
-                    } else {
-                        // not found
-                        dataLoading.current = false;
-                        history.push('#dashbord/not-found');
-                    }
-                });
+        if(docID?.length >= 2) {
+            if(!docID[1]?.trim()) {
+                history.push('#dashbord/not-found');
+            } else {
+                fire.firestore().collection("jobs").doc(docID[1].trim()).get()
+                    .then((doc) => {
+                        if(doc.exists && (doc.data() as IJob).companyId === email) {
+                            let data: IJob = doc.data() as IJob;
+                            setJob(data);
+                            setIsViewMode(true);
+                            dataLoading.current = false;
+                        } else {
+                            // not found
+                            dataLoading.current = false;
+                            history.push('#dashbord/not-found');
+                        }
+                    });
+            }
         } else if(location.hash === "#jobs/post-job"){
             setIsViewMode(false);
             dataLoading.current = false;

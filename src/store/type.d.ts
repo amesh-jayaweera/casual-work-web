@@ -194,8 +194,10 @@ export interface IPaymentHistoryTable {
     amount: number;
     bankName: string;
     branch: string;
-    dateTime: Date;
+    dateTime: any;
     jobId: string;
     userId: string;
+    dateTimeStr: string;
+    status: any;
 }
 
