@@ -543,7 +543,7 @@ export function PostJob(): JSX.Element {
                                         width="100%"
                                         height="450"
                                         loading="lazy"
-                                        className="iframe-map"
+                                        className={`iframe-map`}
                                         title="Map View"
                                         onLoad={()=> {
                                             setMapIsLoading(false);
@@ -557,31 +557,34 @@ export function PostJob(): JSX.Element {
                     </form>
 
                     {/* end form */}
-                    <div className="d-flex justify-content-end">
-                        {
-                            !isViewMode &&
-                            <>
-                                <button type="reset" className="btn btn-danger mr-3"
-                                        onClick={() => onClear()}
+                    {
+                        !mapIsLoading &&
+                        <div className="d-flex justify-content-end">
+                            {
+                                !isViewMode &&
+                                <>
+                                    <button type="reset" className="btn btn-danger mr-3"
+                                            onClick={() => onClear()}
+                                    >
+                                        Clear
+                                    </button>
+                                    <button type="button" className="btn btn-primary"
+                                            onClick={() => {onSubmit()}}
+                                    >
+                                        Post
+                                    </button>
+                                </>
+                            }
+                            {
+                                job.status !== CLOSED && isViewMode &&
+                                <button type="button" className="btn btn-danger mr-3"
+                                        onClick={() => onClose()}
                                 >
-                                    Clear
+                                    Close
                                 </button>
-                                <button type="button" className="btn btn-primary"
-                                    onClick={() => {onSubmit()}}
-                                >
-                                    Post
-                                </button>
-                            </>
-                        }
-                        {
-                            job.status !== CLOSED && isViewMode &&
-                            <button type="button" className="btn btn-danger mr-3"
-                                    onClick={() => onClose()}
-                            >
-                                Close
-                            </button>
-                        }
-                    </div>
+                            }
+                        </div>
+                    }
                 </div>
             }
         </>

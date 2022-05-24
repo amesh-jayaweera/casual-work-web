@@ -137,3 +137,11 @@ a.doc-link:hover {
 .running-job-email {
     margin-bottom: 9px;
 }
+
+.map-block {
+    display: block;
+}
+
+.map-none {
+    display: none;
+}
