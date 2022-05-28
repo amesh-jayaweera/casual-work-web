@@ -2,16 +2,18 @@ import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers/rootReducer";
 import {fire} from "../../index";
 import {
+    APPLICANTS_TABLE,
     JOB_TABLE,
     LOADING, PAYMENT_HISTORY_TABLE, QUIZ_TABLE,
 } from "../actionTypes";
 import React from "react";
-import {IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
+import {IApplicant, IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
 import {OPEN} from "./jobActions";
 
 const quizCollectionPath = "quiz_bank";
 const jobCollectionPath = "jobs";
 const paymentHistoryPath = "payments";
+const applicantsCollectionPath = "applicants";
 
 const RenderLocation = (latitude: number, longitude: number) => {
     return (
@@ -152,4 +154,34 @@ export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootSta
             data : history
         })
     });
+};
+
+export const getApplicants = (jobId: string) :
+    ThunkAction<void, RootState, null, TableActions> => dispatch  => {
+
+    const db = fire.firestore();
+
+    dispatch({
+        type : LOADING,
+        data : []
+    });
+    let applicants : IApplicant[] = [];
+
+    db.collection(applicantsCollectionPath)
+        .where("jobID","==", jobId)
+        .get()
+        .then((querySnapshot) => {
+            let count: number = 0;
+            querySnapshot.forEach((doc) => {
+                let applicant: IApplicant  = doc.data() as IApplicant;
+                count += 1;
+                applicant.id = count;
+                applicants.push(applicant);
+            });
+
+            dispatch({
+                type : APPLICANTS_TABLE,
+                data : applicants
+            })
+        });
 };

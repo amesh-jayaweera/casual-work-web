@@ -202,3 +202,23 @@ export interface IPaymentHistoryTable {
     status: any;
 }
 
+type APPLIED = "APPLIED";
+type CONFIRMED = "CONFIRMED";
+type DECLINED = "DECLINED";
+type ACTIVE = "ACTIVE";
+type REQUESTED_PAYMENT = "REQUESTED_PAYMENT";
+type PAYMENT_COMPLETED = "PAYMENT_COMPLETED";
+
+export type APPLICANT_STATUS = APPLIED | CONFIRMED | DECLINED | ACTIVE | REQUESTED_PAYMENT | PAYMENT_COMPLETED;
+
+export interface IApplicant {
+    id: number;
+    applicantId: string;
+    dob: string;
+    fullName: string;
+    gender: string;
+    jobID: string;
+    phoneNumber: string;
+    status: APPLICANT_STATUS;
+    testScore: number;
+}

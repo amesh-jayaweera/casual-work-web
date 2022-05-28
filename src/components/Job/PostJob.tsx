@@ -6,7 +6,7 @@ import {IJob, QuizListTable} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
 import {validateTime} from "../../util/regex";
 import {ValidateLatitude, ValidateLongitude, ValidateShifts} from "../../util/validation";
-import {getQuizSets} from "../../store/actions/tableActions";
+import {getApplicants, getQuizSets} from "../../store/actions/tableActions";
 import {CLOSED, postJob} from "../../store/actions/jobActions";
 import {
     POST_JOB_DEFAULT,
@@ -16,6 +16,7 @@ import {
 import {Failure, Success} from "../../util/toasts";
 import {fire} from "../../index";
 import {Spinner} from "react-bootstrap";
+import {Applicants} from "./Applicants";
 
 export const defaultShiftOnTime : string = "08:00";
 export const defaultShiftOffTime : string = "17:00";
@@ -59,6 +60,7 @@ export function PostJob(): JSX.Element {
         dispatch(getQuizSets(email));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+    const [jobId, setJobId] = useState<string>("");
 
     const [job, setJob] = useState<IJob>({
         field: "None",
@@ -97,13 +99,16 @@ export function PostJob(): JSX.Element {
             if(!docID[1]?.trim()) {
                 history.push('#dashbord/not-found');
             } else {
-                fire.firestore().collection("jobs").doc(docID[1].trim()).get()
+                const _jobId: string = docID[1].trim();
+                setJobId(_jobId);
+                fire.firestore().collection("jobs").doc(_jobId).get()
                     .then((doc) => {
                         if(doc.exists && (doc.data() as IJob).companyId === email) {
                             let data: IJob = doc.data() as IJob;
                             setJob(data);
                             setIsViewMode(true);
                             dataLoading.current = false;
+                            setJobId(_jobId);
                         } else {
                             // not found
                             dataLoading.current = false;
@@ -123,6 +128,12 @@ export function PostJob(): JSX.Element {
         if(job.field !== "None")
             setTitles(TITLES[job.field]);
     },[job.field]);
+
+    useEffect(()=> {
+        if(jobId)
+            dispatch(getApplicants(jobId));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jobId]);
 
     useEffect(()=> {
         const startDate: any = new Date(`0001-01-01 ${job.shift.on}`);
@@ -319,7 +330,7 @@ export function PostJob(): JSX.Element {
                                                 <small className="invalid-feedback">Date of the job is required.</small>
                                             }
                                             {
-                                                (new Date(job.date).getTime() < new Date().getTime()) &&
+                                                (new Date(job.date).getTime() < new Date().getTime()) && !isViewMode &&
                                                 <small className="invalid-feedback">
                                                     Cannot post a job for past or today date!
                                                 </small>
@@ -586,6 +597,13 @@ export function PostJob(): JSX.Element {
                         </div>
                     }
                 </div>
+            }
+            {
+                !loading && !dataLoading.current.valueOf() && jobId && isViewMode &&
+                    <>
+                        <Applicants />
+                        <br/>
+                    </>
             }
         </>
     )
