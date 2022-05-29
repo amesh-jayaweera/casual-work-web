@@ -37,7 +37,7 @@ const RenderOpenView = () => {
 
 const RenderCloseView = () => {
     return (
-        <div className="badge badge-dyellow text-white">Yellow</div>
+        <div className="badge badge-danger text-white">CLOSED</div>
     )
 };
 

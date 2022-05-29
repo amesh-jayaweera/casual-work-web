@@ -94,6 +94,13 @@ export function PostJob(): JSX.Element {
         hourlyRateReq: false
     });
 
+    let unsubscribedJob : Function;
+
+    function unsubscribedJobFun()  {
+        if(!!unsubscribedJob)
+            unsubscribedJob();
+    }
+
     useEffect(()=> {
         dataLoading.current = true;
         let docID = location.hash.split('#jobs/view/job?id=');
@@ -103,8 +110,8 @@ export function PostJob(): JSX.Element {
             } else {
                 const _jobId: string = docID[1].trim();
                 setJobId(_jobId);
-                fire.firestore().collection("jobs").doc(_jobId).get()
-                    .then((doc) => {
+                unsubscribedJob = fire.firestore().collection("jobs").doc(_jobId)
+                    .onSnapshot((doc) => {
                         if(doc.exists && (doc.data() as IJob).companyId === email) {
                             let data: IJob = doc.data() as IJob;
                             setJob(data);
@@ -123,6 +130,10 @@ export function PostJob(): JSX.Element {
             dataLoading.current = false;
         }
         dataLoading.current = false;
+
+        return ()=> {
+            unsubscribedJobFun();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
@@ -341,7 +352,33 @@ export function PostJob(): JSX.Element {
     }
 
     function onClose() {
-
+        confirmAlert({
+            title: "Confirm Your Action",
+            message: `Are sure want to close the job ?`,
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fire.firestore().collection("jobs").doc(jobId)
+                            .set({
+                                status: "CLOSED"
+                            },{ merge: true })
+                            .then(()=> {
+                                Success("Job has been closed successfully!");
+                            })
+                            .catch((error)=> {
+                                Failure(error as string);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        // do nothing
+                    }
+                }
+            ]
+        });
     }
 
     function onClear() {
@@ -761,7 +798,7 @@ export function PostJob(): JSX.Element {
             {
                 !loading && !dataLoading.current.valueOf() && jobId && isViewMode &&
                     <>
-                        <Applicants />
+                        <Applicants isClosed={job.status === "CLOSED"}/>
                         <br/>
                     </>
             }

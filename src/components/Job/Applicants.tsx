@@ -4,18 +4,11 @@ import {TableLoading} from "../Common/Other/TableLoading";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/rootReducer";
 
-export function Applicants() {
+export function Applicants({isClosed}: {isClosed: boolean}) {
 
-    // const dispatch = useDispatch();
-    // const {loading, data } = useSelector((state: RootState) => state.applicantsTable);
-    //
-    // useEffect(() => {
-    //     dispatch(getApplicants(jobId));
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // },[]);
     const {loading, data} = useSelector((state: RootState) => state.applicantsTable);
 
-    const columns = [
+    let columns = [
         {
             label: 'No.',
             name: 'id',
@@ -63,15 +56,18 @@ export function Applicants() {
         {
           label: 'Status',
           name: 'statusView'
-        },
-        {
+        }
+    ];
+
+    if(!isClosed) {
+        columns.push({
             label: 'Actions',
             name: 'action',
             options: {
                 filter: false
             }
-        }
-    ];
+        });
+    }
 
     const options = {
         searchPlaceholder : "search ...",
