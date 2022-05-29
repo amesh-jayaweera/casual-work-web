@@ -6,7 +6,7 @@ import {IEmployee, IJob, QuizListTable} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
 import {validateTime} from "../../util/regex";
 import {ValidateLatitude, ValidateLongitude, ValidateShifts} from "../../util/validation";
-import {getApplicants, getQuizSets} from "../../store/actions/tableActions";
+import {getApplicants, getQuizSets, unsubscribedApplicantsFun} from "../../store/actions/tableActions";
 import {CLOSED, postJob} from "../../store/actions/jobActions";
 import {
     POST_JOB_DEFAULT,
@@ -134,6 +134,10 @@ export function PostJob(): JSX.Element {
     useEffect(()=> {
         if(jobId)
             dispatch(getApplicants(jobId));
+
+        return () => {
+            unsubscribedApplicantsFun();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jobId]);
 

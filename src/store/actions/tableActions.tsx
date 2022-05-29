@@ -204,6 +204,13 @@ const RenderApplicantAction = (basePath: string, id : string, applicationId: str
     )
 };
 
+let unsubscribedApplicants : Function;
+
+export function unsubscribedApplicantsFun()  {
+    if(!!unsubscribedApplicants)
+        unsubscribedApplicants();
+}
+
 export const getApplicants = (jobId: string) :
     ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
@@ -215,10 +222,11 @@ export const getApplicants = (jobId: string) :
     });
     let applicants : IApplicant[] = [];
 
-    db.collection(applicantsCollectionPath)
+    unsubscribedApplicants = db.collection(applicantsCollectionPath)
         .where("jobID","==", jobId)
         .onSnapshot((querySnapshot) => {
             let count: number = 0;
+            applicants = [];
             querySnapshot.forEach((doc) => {
                 let applicant: IApplicant  = doc.data() as IApplicant;
                 count += 1;

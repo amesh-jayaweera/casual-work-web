@@ -105,7 +105,7 @@ export function Payment() {
         },
         {
             label: 'Branch Name',
-            name: 'branchName'
+            name: 'branch'
         },
         {
             label: 'Account Number',
