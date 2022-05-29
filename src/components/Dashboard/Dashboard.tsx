@@ -1,47 +1,54 @@
-import React from "react";
+import React, {useEffect} from "react";
 import jobIcon from "../../resources/icons/job_icon.svg";
 import employeeIcon from "../../resources/icons/employee_icon.svg";
 import runningIcon from "../../resources/icons/running_icon.svg";
 import doneIcon from "../../resources/icons/done_icon.svg";
+import {useDispatch, useSelector} from "react-redux";
+import {getStats, unsubscribedStatsFun} from "../../store/actions/statsActions";
+import {RootState} from "../../store/reducers/rootReducer";
 
-const Card01 = () => {
+const Card01 = ({count}: {count: number}) => {
 
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h5>Card 01</h5>
+                <h1>{count}</h1>
+                <h5>Total Jobs</h5>
             </div>
         </div>
     )
 };
 
-const Card02 = () => {
+const Card02 = ({count}: {count: number}) => {
 
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h5>Card 02</h5>
+                <h1>{count}</h1>
+                <h5>Open Jobs</h5>
             </div>
         </div>
     )
 };
 
-const Card03 = () => {
+const Card03 = ({count}: {count: number}) => {
 
   return (
       <div className="col-9 col-md-10 col-xl-9">
           <div className="m-4 card-details">
-              <h5>Card 03</h5>
+              <h1>{count}</h1>
+              <h5>Active Workers</h5>
           </div>
       </div>
   )
 };
 
-const Card04 =  () => {
+const Card04 =  ({count}: {count: number}) => {
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h5>Card 04</h5>
+                <h1>{count}</h1>
+                <h5>Completed Jobs</h5>
             </div>
         </div>
     )
@@ -49,13 +56,26 @@ const Card04 =  () => {
 
 export function Dashboard() {
 
+    const { user : {email} } = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
+    useEffect(()=> {
+        dispatch(getStats(email));
+
+        return () => {
+            unsubscribedStatsFun();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+
+    const { loading, openJobs, totalJobs, closedJobs } = useSelector((state: RootState) => state.statsReducer);
+
     return (
         <div className="pd-ltr-20">
             <div className="row">
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card01/>
+                            <Card01 count={totalJobs}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dblue card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={jobIcon} width="50px" height="50px" alt="job-icon"
@@ -70,7 +90,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card02/>
+                            <Card02 count={openJobs}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dcyan card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={employeeIcon} width="50px" height="50px" alt="job-icon"
@@ -84,7 +104,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card03/>
+                            <Card03 count={5}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dpurple card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={runningIcon} width="50px" height="50px" alt="job-icon"
@@ -98,7 +118,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card04/>
+                            <Card04 count={closedJobs}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dgreen card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={doneIcon} width="50px" height="50px" alt="job-icon"
