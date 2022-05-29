@@ -51,8 +51,21 @@ export function Applicants() {
         },
         {
             label: 'Gender',
-            name: 'gender',
-            display: false
+            name: 'gender'
+        },
+        {
+            label: 'Test Score',
+            name: 'testScore',
+            options: {
+                filter: false
+            }
+        },
+        {
+            label: 'Actions',
+            name: 'actions',
+            options: {
+                filter: false
+            }
         }
     ];
 
