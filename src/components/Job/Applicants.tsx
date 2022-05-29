@@ -61,6 +61,10 @@ export function Applicants() {
             }
         },
         {
+          label: 'Status',
+          name: 'statusView'
+        },
+        {
             label: 'Actions',
             name: 'actions',
             options: {

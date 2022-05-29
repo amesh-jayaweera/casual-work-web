@@ -7,7 +7,7 @@ import {
     LOADING, PAYMENT_HISTORY_TABLE, QUIZ_TABLE,
 } from "../actionTypes";
 import React from "react";
-import {IApplicant, IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
+import {APPLICANT_STATUS, IApplicant, IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
 import {OPEN} from "./jobActions";
 
 const quizCollectionPath = "quiz_bank";
@@ -156,6 +156,38 @@ export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootSta
     });
 };
 
+// type APPLIED = "APPLIED";
+// type CONFIRMED_BY_COMPANY = "CONFIRMED_BY_COMPANY";
+// type CONFIRMED_BY_APPLICANT = "CONFIRMED_BY_APPLICANT";
+// type ACTIVE = "ACTIVE";
+// type REQUESTED_PAYMENT = "REQUESTED_PAYMENT";
+// type PAYMENT_COMPLETED = "PAYMENT_COMPLETED";
+
+const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
+    let color: string = "";
+    if(status === "APPLIED")
+        color = "badge-dpurple";
+    else if(status === "CONFIRMED_BY_COMPANY")
+        color = "badge-dgreen";
+    else if(status === "CONFIRMED_BY_APPLICANT")
+        color = "badge-primary";
+    else if(status === "ACTIVE")
+        color = "badge-success";
+    else if(status === "REQUESTED_PAYMENT")
+        color = "badge-dred";
+
+    return (
+        <div className={`badge ${color} text-white`}>{ status.toString() }</div>
+    )
+};
+
+// const RenderApplicantStatus = (basePath: string, id : string, title: string) => {
+//
+//     return (
+//         <a  href={`#${basePath}?id=${id}`}><div className="badge badge-dgreen text-white">{ title }</div></a>
+//     )
+// };
+
 export const getApplicants = (jobId: string) :
     ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
@@ -176,6 +208,7 @@ export const getApplicants = (jobId: string) :
                 let applicant: IApplicant  = doc.data() as IApplicant;
                 count += 1;
                 applicant.id = count;
+                applicant.statusView = RenderApplicantStatus(applicant.status);
                 applicants.push(applicant);
             });
 

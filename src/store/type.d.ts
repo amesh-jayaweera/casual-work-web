@@ -202,14 +202,15 @@ export interface IPaymentHistoryTable {
     status: any;
 }
 
-type APPLIED = "APPLIED";
-type CONFIRMED = "CONFIRMED";
-type DECLINED = "DECLINED";
-type ACTIVE = "ACTIVE";
-type REQUESTED_PAYMENT = "REQUESTED_PAYMENT";
-type PAYMENT_COMPLETED = "PAYMENT_COMPLETED";
+export type APPLIED = "APPLIED";
+export type CONFIRMED_BY_COMPANY = "CONFIRMED_BY_COMPANY";
+export type CONFIRMED_BY_APPLICANT = "CONFIRMED_BY_APPLICANT";
+export type ACTIVE = "ACTIVE";
+export type REQUESTED_PAYMENT = "REQUESTED_PAYMENT";
+export type PAYMENT_COMPLETED = "PAYMENT_COMPLETED";
 
-export type APPLICANT_STATUS = APPLIED | CONFIRMED | DECLINED | ACTIVE | REQUESTED_PAYMENT | PAYMENT_COMPLETED;
+export type APPLICANT_STATUS = APPLIED | CONFIRMED_BY_COMPANY |
+    CONFIRMED_BY_APPLICANT | ACTIVE | REQUESTED_PAYMENT | PAYMENT_COMPLETED;
 
 export interface IApplicant {
     id: number;
@@ -221,4 +222,5 @@ export interface IApplicant {
     phoneNumber: string;
     status: APPLICANT_STATUS;
     testScore: number;
+    statusView: any;
 }
