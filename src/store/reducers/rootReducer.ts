@@ -5,6 +5,7 @@ import {companyProfileUpdateReducer, companyRegistrationReducer} from "./company
 import {quizReducer} from "./quizReducer";
 import {applicantsReducer, jobReducer, paymentHistoryReducer, quizTableReducer} from "./tableReducer";
 import {postJobReducer} from "./jobReducer";
+import {statsReducer} from "./statsReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -16,7 +17,8 @@ export const rootReducer = combineReducers({
     postJob: postJobReducer,
     jobTable: jobReducer,
     paymentHistoryTable: paymentHistoryReducer,
-    applicantsTable: applicantsReducer
+    applicantsTable: applicantsReducer,
+    statsReducer: statsReducer
 });
 
 // Root State

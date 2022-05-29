@@ -123,6 +123,12 @@ type TableActions = {
     unsubscribed? : any;
 }
 
+type StatActions = {
+    type: string;
+    count: number;
+    unsubscribed? : any;
+}
+
 export interface QuizListTable {
     id: number;
     companyId: string;
@@ -137,6 +143,15 @@ export interface QuizListTable {
 export interface TableState  {
     loading : boolean;
     data : any[];
+    unsubscribed? : any;
+}
+
+export interface StatsState  {
+    loading : boolean;
+    totalJobs: number;
+    activeWorkers: number;
+    openJobs: number;
+    closedJobs: number;
     unsubscribed? : any;
 }
 

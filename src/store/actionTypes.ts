@@ -43,6 +43,12 @@ export const MENU_OPEN = "MENU_OPEN";
 export const MENU_CLOSE = "MENU_CLOSE";
 export const MENU_DEFAULT = "MENU_DEFAULT";
 
+// stats
+export const TOTAL_JOBS = "TOTAL_JOBS";
+export const ACTIVE_WORKERS = "ACTIVE_WORKERS";
+export const OPEN_JOBS = "OPENED_JOBS";
+export const CLOSED_JOBS = "CLOSED_JOBS";
+
 // Other
 export const ERROR = "ERROR";
 export const LOADING = "LOADING";
