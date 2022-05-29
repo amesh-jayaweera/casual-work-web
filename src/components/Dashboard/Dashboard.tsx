@@ -6,48 +6,49 @@ import doneIcon from "../../resources/icons/done_icon.svg";
 import {useDispatch, useSelector} from "react-redux";
 import {getStats, unsubscribedStatsFun} from "../../store/actions/statsActions";
 import {RootState} from "../../store/reducers/rootReducer";
+import Skeleton from "react-loading-skeleton";
 
-const Card01 = ({count}: {count: number}) => {
+const Card01 = ({loading, count}: {loading: boolean, count: number}) => {
 
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h1>{count}</h1>
+                {!loading ? <h1>{count || 0}</h1> : <Skeleton />}
                 <h5>Total Jobs</h5>
             </div>
         </div>
     )
 };
 
-const Card02 = ({count}: {count: number}) => {
+const Card02 = ({loading, count}: {loading: boolean, count: number}) => {
 
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h1>{count}</h1>
+                {!loading ? <h1>{count || 0}</h1> : <Skeleton />}
                 <h5>Open Jobs</h5>
             </div>
         </div>
     )
 };
 
-const Card03 = ({count}: {count: number}) => {
+const Card03 = ({loading, count}: {loading: boolean, count: number}) => {
 
   return (
       <div className="col-9 col-md-10 col-xl-9">
           <div className="m-4 card-details">
-              <h1>{count}</h1>
+              {!loading ? <h1>{count || 0}</h1> : <Skeleton />}
               <h5>Active Workers</h5>
           </div>
       </div>
   )
 };
 
-const Card04 =  ({count}: {count: number}) => {
+const Card04 =  ({loading, count}: {loading: boolean, count: number}) => {
     return (
         <div className="col-9 col-md-10 col-xl-9">
             <div className="m-4 card-details">
-                <h1>{count}</h1>
+                {!loading ? <h1>{count || 0}</h1> : <Skeleton />}
                 <h5>Completed Jobs</h5>
             </div>
         </div>
@@ -75,7 +76,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card01 count={totalJobs}/>
+                            <Card01 count={totalJobs} loading={loading}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dblue card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={jobIcon} width="50px" height="50px" alt="job-icon"
@@ -90,7 +91,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card02 count={openJobs}/>
+                            <Card02 count={openJobs} loading={loading}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dcyan card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={employeeIcon} width="50px" height="50px" alt="job-icon"
@@ -104,7 +105,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card03 count={5}/>
+                            <Card03 count={5} loading={loading}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dpurple card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={runningIcon} width="50px" height="50px" alt="job-icon"
@@ -118,7 +119,7 @@ export function Dashboard() {
                 <div className="col-xl-3 mb-30">
                     <div className="card-box height-100-p widget-style1">
                         <div className="row no-gutters h-100">
-                            <Card04 count={closedJobs}/>
+                            <Card04 count={closedJobs} loading={loading}/>
                             <div className="col-3 col-md-2 col-xl-3 bg-dgreen card-item d-flex justify-content-center">
                                 <div className="m-3 my-auto">
                                     <img src={doneIcon} width="50px" height="50px" alt="job-icon"

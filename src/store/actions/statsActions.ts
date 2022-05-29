@@ -3,7 +3,6 @@ import {RootState} from "../reducers/rootReducer";
 import {StatActions} from "../type";
 import {fire} from "../../index";
 import {CLOSED_JOBS, LOADING, OPEN_JOBS, TOTAL_JOBS} from "../actionTypes";
-import {OPEN} from "./jobActions";
 
 const jobCollectionPath = "jobs";
 
