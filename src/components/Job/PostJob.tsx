@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Skeleton from "react-loading-skeleton";
 import {useHistory, useLocation} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
-import {IJob, QuizListTable} from "../../store/type";
+import {IEmployee, IJob, QuizListTable} from "../../store/type";
 import {RootState} from "../../store/reducers/rootReducer";
 import {validateTime} from "../../util/regex";
 import {ValidateLatitude, ValidateLongitude, ValidateShifts} from "../../util/validation";
@@ -165,8 +165,9 @@ export function PostJob(): JSX.Element {
 
     useEffect(()=> {
         const queryObj = queryString.parse(location.hash);
-        if(queryObj?.action && queryObj?.applicationId) {
+        if(queryObj?.action && queryObj?.applicationId && queryObj?.userId) {
             const applicationId: string = queryObj?.applicationId as string;
+            const userId: string = queryObj?.userId as string;
             if(queryObj?.action === "job-confirmation") {
                 confirmAlert({
                     title: "Confirm Your Action",
@@ -181,7 +182,6 @@ export function PostJob(): JSX.Element {
                                     },{ merge: true })
                                     .then(()=> {
                                         Success("Confirm the job successfully!");
-                                        dispatch(getApplicants(jobId));
                                         history.goBack();
                                     })
                                     .catch((error)=> {
@@ -207,12 +207,91 @@ export function PostJob(): JSX.Element {
                         {
                             label: 'Yes',
                             onClick: () => {
+                                fire.firestore().collection("applicants")
+                                    .doc(applicationId)
+                                    .set(
+                                            {
+                                                status: "PAYMENT_COMPLETED"
+                                            },
+                                            {
+                                                merge: true
+                                            }
+                                        )
+                                    .then(async ()=> {
+                                        const emp: IEmployee =
+                                            (await fire.firestore()
+                                            .collection("users")
+                                            .doc(userId)
+                                            .get()).data() as IEmployee;
+
+                                        let payment = {
+                                            userProfileUrl: emp.Photourl,
+                                            fullName: emp.fullName,
+                                            accountNo: emp.bankDetails.accountNo,
+                                            amount: job.totalEstimatedCost,
+                                            bankName: emp.bankDetails.bankName,
+                                            branch: emp.bankDetails.branchName,
+                                            dateTime: new Date(),
+                                            jobId: jobId,
+                                            companyId: email,
+                                            userId: userId
+                                        };
+
+                                        fire.firestore()
+                                            .collection("payments")
+                                            .doc()
+                                            .set(payment)
+                                            .then(()=> {
+                                                Success("Proceed the payment successfully!");
+                                                history.goBack();
+                                            })
+                                            .catch(async ()=> {
+                                                Failure("Failed to proceed the payment!");
+                                                await fire.firestore().collection("applicants")
+                                                    .doc(applicationId)
+                                                    .set(
+                                                            {
+                                                                status: "APPLIED"
+
+                                                            },
+                                                            {
+                                                                merge: true
+                                                            }
+                                                        );
+                                                history.goBack();
+                                            });
+                                    })
+                                    .catch((error)=> {
+                                        Failure(error as string);
+                                        history.goBack();
+                                    });
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => {
+                                // do nothing
+                                history.goBack();
+                            }
+                        }
+                    ]
+                });
+            }
+            else if(queryObj?.action === "set-active") {
+               // set-active
+                confirmAlert({
+                    title: "Confirm Your Action",
+                    message: `Are sure want to active the job ?`,
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
                                 fire.firestore().collection("applicants").doc(applicationId)
                                     .set({
-                                        status: "PAYMENT_COMPLETED"
+                                        status: "ACTIVE"
                                     },{ merge: true })
                                     .then(()=> {
-                                        Success("Proceed the payment successfully!");
+                                        Success("Active the job successfully!");
                                         history.goBack();
                                     })
                                     .catch((error)=> {
@@ -230,7 +309,8 @@ export function PostJob(): JSX.Element {
                         }
                     ]
                 });
-            } else {
+            }
+            else {
                 history.goBack();
             }
         }

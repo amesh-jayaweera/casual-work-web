@@ -200,6 +200,8 @@ export interface IPaymentHistoryTable {
     date: string;
     time: string;
     status: any;
+    userProfileUrl: string;
+    userProfileView: any;
 }
 
 export type APPLIED = "APPLIED";
@@ -224,4 +226,19 @@ export interface IApplicant {
     testScore: number;
     statusView: any;
     action: any;
+}
+
+export interface IEmployee {
+    Photourl: string;
+    dob: string;
+    email: string;
+    fullName: string
+    gender: string;
+    jobField: string;
+    phoneNumber: string;
+    bankDetails: {
+        accountNo: number;
+        bankName: string;
+        branchName: string;
+    }
 }

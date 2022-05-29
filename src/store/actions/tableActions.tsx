@@ -183,18 +183,20 @@ const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
     )
 };
 
-const RenderApplicantAction = (basePath: string, id : string, applicationId: string, action: string, title: string,
-                               status: APPLICANT_STATUS) => {
+const RenderApplicantAction = (basePath: string, id : string, applicationId: string, action: string, userId: string,
+                               title: string, status: APPLICANT_STATUS) => {
 
     let color = "";
     if(status === "REQUESTED_PAYMENT") {
         color = "badge-warning";
     } else if(status === "APPLIED") {
         color = "badge-dgreen";
+    } else if(status === "CONFIRMED_BY_APPLICANT") {
+        color = "badge-dpurple";
     }
 
     return (
-        <a  href={`#${basePath}?id=${id}&applicationId=${applicationId}&action=${action}`}>
+        <a  href={`#${basePath}?id=${id}&applicationId=${applicationId}&action=${action}&userId=${userId}`}>
             <div className={`badge ${color} text-white`}>
                 { title }
             </div>
@@ -215,26 +217,30 @@ export const getApplicants = (jobId: string) :
 
     db.collection(applicantsCollectionPath)
         .where("jobID","==", jobId)
-        .get()
-        .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
             let count: number = 0;
             querySnapshot.forEach((doc) => {
                 let applicant: IApplicant  = doc.data() as IApplicant;
                 count += 1;
                 applicant.id = count;
                 applicant.statusView = RenderApplicantStatus(applicant.status);
-                if(applicant.status === "APPLIED" || applicant.status === "REQUESTED_PAYMENT") {
+                if(applicant.status === "APPLIED" || applicant.status === "REQUESTED_PAYMENT"
+                || applicant.status === "CONFIRMED_BY_APPLICANT") {
                     let statusStr
                     let actionStr;
                     if(applicant.status === "APPLIED") {
                         statusStr = "Confirm Job";
                         actionStr = "job-confirmation";
-                    } else {
+                    } else if(applicant.status === "CONFIRMED_BY_APPLICANT") {
+                        statusStr = "Set Active";
+                        actionStr = "set-active";
+                    }
+                    else {
                         statusStr = "Proceed Payment";
                         actionStr = "proceed-payment";
                     }
                     applicant.action = RenderApplicantAction("jobs/view/job", jobId, doc.id, actionStr,
-                        statusStr, applicant.status);
+                       applicant.applicantId, statusStr, applicant.status);
                 } else {
                     applicant.action = "-";
                 }
