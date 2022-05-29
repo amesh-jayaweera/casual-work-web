@@ -181,7 +181,8 @@ const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
     )
 };
 
-const RenderApplicantAction = (basePath: string, id : string, title: string, status: APPLICANT_STATUS) => {
+const RenderApplicantAction = (basePath: string, id : string, applicationId: string, action: string, title: string,
+                               status: APPLICANT_STATUS) => {
 
     let color = "";
     if(status === "REQUESTED_PAYMENT") {
@@ -191,7 +192,11 @@ const RenderApplicantAction = (basePath: string, id : string, title: string, sta
     }
 
     return (
-        <a  href={`#${basePath}?id=${id}`}><div className={`badge ${color} text-white`}>{ title }</div></a>
+        <a  href={`#${basePath}?id=${id}&applicationId=${applicationId}&action=${action}`}>
+            <div className={`badge ${color} text-white`}>
+                { title }
+            </div>
+        </a>
     )
 };
 
@@ -217,14 +222,17 @@ export const getApplicants = (jobId: string) :
                 applicant.id = count;
                 applicant.statusView = RenderApplicantStatus(applicant.status);
                 if(applicant.status === "APPLIED" || applicant.status === "REQUESTED_PAYMENT") {
-                    let statusStr;
+                    let statusStr
+                    let actionStr;
                     if(applicant.status === "APPLIED") {
                         statusStr = "Confirm Job";
+                        actionStr = "job-confirmation";
                     } else {
                         statusStr = "Proceed Payment";
+                        actionStr = "proceed-payment";
                     }
-                    applicant.action = RenderApplicantAction("jobs/view/job", jobId, statusStr,
-                        applicant.status);
+                    applicant.action = RenderApplicantAction("jobs/view/job", jobId, doc.id, actionStr,
+                        statusStr, applicant.status);
                 } else {
                     applicant.action = "-";
                 }
