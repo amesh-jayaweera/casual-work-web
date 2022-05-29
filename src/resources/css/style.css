@@ -1038,6 +1038,14 @@ table tbody tr td:last-child {
     border-radius: 50%;
 }
 
+.profile-photo-min {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    position: relative;
+    border-radius: 50%;
+}
+
 .avatar-photo {
     border-radius: 100%;
 }

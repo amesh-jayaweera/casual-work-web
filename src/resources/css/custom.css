@@ -125,6 +125,13 @@ a.doc-link:hover {
     border-radius: 50%!important;
 }
 
+.profile-custom-min {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%!important;
+}
+
 .feedback-images {
     width: 150px;
     height:150px;

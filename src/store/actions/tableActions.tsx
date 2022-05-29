@@ -9,6 +9,7 @@ import {
 import React from "react";
 import {APPLICANT_STATUS, IApplicant, IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
 import {OPEN} from "./jobActions";
+import defaultProfile from "../../resources/images/profile-placeholder.svg";
 
 const quizCollectionPath = "quiz_bank";
 const jobCollectionPath = "jobs";
@@ -126,6 +127,16 @@ export const getJobs = (companyId: string) : ThunkAction<void, RootState, null, 
     });
 };
 
+export function RenderProfileView(url: string) {
+    return (
+        <div className="profile-photo-min img-fluid ">
+            <img className="shadow-sm border border-dark profile-custom-min"
+                 src={url || defaultProfile} alt="Company Profile Identity"
+            />
+        </div>
+    )
+}
+
 export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootState, null, TableActions> => dispatch  => {
 
     const db = fire.firestore();
@@ -146,6 +157,7 @@ export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootSta
             payment.date = payment.dateTime?.toISOString().split('T')[0] || "";
             payment.time = payment.dateTime.toLocaleTimeString();
             payment.status = RenderViewAction("jobs/view/job", payment.jobId, "View Job")
+            payment.userProfileView = RenderProfileView(payment.userProfileUrl);
             history.push(payment);
         });
 

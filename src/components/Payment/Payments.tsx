@@ -100,6 +100,13 @@ export function Payment() {
             }
         },
         {
+            label: 'Profile',
+            name: 'userProfileView',
+            options : {
+                filter : false
+            }
+        },
+        {
             label: 'Bank Name',
             name: 'bankName'
         },
