@@ -181,12 +181,19 @@ const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
     )
 };
 
-// const RenderApplicantStatus = (basePath: string, id : string, title: string) => {
-//
-//     return (
-//         <a  href={`#${basePath}?id=${id}`}><div className="badge badge-dgreen text-white">{ title }</div></a>
-//     )
-// };
+const RenderApplicantAction = (basePath: string, id : string, title: string, status: APPLICANT_STATUS) => {
+
+    let color = "";
+    if(status === "REQUESTED_PAYMENT") {
+        color = "badge-warning";
+    } else if(status === "APPLIED") {
+        color = "badge-dgreen";
+    }
+
+    return (
+        <a  href={`#${basePath}?id=${id}`}><div className={`badge ${color} text-white`}>{ title }</div></a>
+    )
+};
 
 export const getApplicants = (jobId: string) :
     ThunkAction<void, RootState, null, TableActions> => dispatch  => {
@@ -209,6 +216,18 @@ export const getApplicants = (jobId: string) :
                 count += 1;
                 applicant.id = count;
                 applicant.statusView = RenderApplicantStatus(applicant.status);
+                if(applicant.status === "APPLIED" || applicant.status === "REQUESTED_PAYMENT") {
+                    let statusStr;
+                    if(applicant.status === "APPLIED") {
+                        statusStr = "Confirm Job";
+                    } else {
+                        statusStr = "Proceed Payment";
+                    }
+                    applicant.action = RenderApplicantAction("jobs/view/job", jobId, statusStr,
+                        applicant.status);
+                } else {
+                    applicant.action = "-";
+                }
                 applicants.push(applicant);
             });
 

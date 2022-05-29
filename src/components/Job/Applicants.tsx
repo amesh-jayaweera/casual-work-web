@@ -66,7 +66,7 @@ export function Applicants() {
         },
         {
             label: 'Actions',
-            name: 'actions',
+            name: 'action',
             options: {
                 filter: false
             }

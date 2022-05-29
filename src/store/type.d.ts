@@ -223,4 +223,5 @@ export interface IApplicant {
     status: APPLICANT_STATUS;
     testScore: number;
     statusView: any;
+    action: any;
 }
