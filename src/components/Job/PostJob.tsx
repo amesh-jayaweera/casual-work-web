@@ -110,6 +110,7 @@ export function PostJob(): JSX.Element {
             } else {
                 const _jobId: string = docID[1].trim();
                 setJobId(_jobId);
+                // eslint-disable-next-line
                 unsubscribedJob = fire.firestore().collection("jobs").doc(_jobId)
                     .onSnapshot((doc) => {
                         if(doc.exists && (doc.data() as IJob).companyId === email) {
