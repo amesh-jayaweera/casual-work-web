@@ -17,6 +17,8 @@ import {Failure, Success} from "../../util/toasts";
 import {fire} from "../../index";
 import {Spinner} from "react-bootstrap";
 import {Applicants} from "./Applicants";
+import queryString from 'query-string';
+import {confirmAlert} from "react-confirm-alert";
 
 export const defaultShiftOnTime : string = "08:00";
 export const defaultShiftOffTime : string = "17:00";
@@ -160,6 +162,80 @@ export function PostJob(): JSX.Element {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[type, error, message, dispatch]);
+
+    useEffect(()=> {
+        const queryObj = queryString.parse(location.hash);
+        if(queryObj?.action && queryObj?.applicationId) {
+            const applicationId: string = queryObj?.applicationId as string;
+            if(queryObj?.action === "job-confirmation") {
+                confirmAlert({
+                    title: "Confirm Your Action",
+                    message: `Are sure want to confirm the job ?`,
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
+                                fire.firestore().collection("applicants").doc(applicationId)
+                                    .set({
+                                        status: "CONFIRMED_BY_COMPANY"
+                                    },{ merge: true })
+                                    .then(()=> {
+                                        Success("Confirm the job successfully!");
+                                        dispatch(getApplicants(jobId));
+                                        history.goBack();
+                                    })
+                                    .catch((error)=> {
+                                        Failure(error as string);
+                                        history.goBack();
+                                    });
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => {
+                                // do nothing
+                                history.goBack();
+                            }
+                        }
+                    ]
+                });
+            } else if(queryObj?.action === "proceed-payment") {
+                confirmAlert({
+                    title: "Confirm Your Action",
+                    message: `Are sure want to proceed the payment ?`,
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
+                                fire.firestore().collection("applicants").doc(applicationId)
+                                    .set({
+                                        status: "PAYMENT_COMPLETED"
+                                    },{ merge: true })
+                                    .then(()=> {
+                                        Success("Proceed the payment successfully!");
+                                        history.goBack();
+                                    })
+                                    .catch((error)=> {
+                                        Failure(error as string);
+                                        history.goBack();
+                                    });
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => {
+                                // do nothing
+                                history.goBack();
+                            }
+                        }
+                    ]
+                });
+            } else {
+                history.goBack();
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.hash]);
 
     function onSubmit() {
         setValidation({

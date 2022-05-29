@@ -172,9 +172,11 @@ const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
     else if(status === "CONFIRMED_BY_APPLICANT")
         color = "badge-primary";
     else if(status === "ACTIVE")
-        color = "badge-success";
+        color = "badge-warning";
     else if(status === "REQUESTED_PAYMENT")
         color = "badge-dred";
+    else if(status === "PAYMENT_COMPLETED")
+        color = "badge-success";
 
     return (
         <div className={`badge ${color} text-white`}>{ status.toString() }</div>
