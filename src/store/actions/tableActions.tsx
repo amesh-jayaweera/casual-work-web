@@ -4,7 +4,7 @@ import {fire} from "../../index";
 import {
     APPLICANTS_TABLE,
     JOB_TABLE,
-    LOADING, PAYMENT_HISTORY_TABLE, QUIZ_TABLE,
+    LOADING, PAYMENT_HISTORY_TABLE, QUIZ_TABLE
 } from "../actionTypes";
 import React from "react";
 import {APPLICANT_STATUS, IApplicant, IJobTable, IPaymentHistoryTable, QuizListTable, TableActions} from "../type";
@@ -167,13 +167,6 @@ export const getPaymentHistory = (companyId: string) : ThunkAction<void, RootSta
         })
     });
 };
-
-// type APPLIED = "APPLIED";
-// type CONFIRMED_BY_COMPANY = "CONFIRMED_BY_COMPANY";
-// type CONFIRMED_BY_APPLICANT = "CONFIRMED_BY_APPLICANT";
-// type ACTIVE = "ACTIVE";
-// type REQUESTED_PAYMENT = "REQUESTED_PAYMENT";
-// type PAYMENT_COMPLETED = "PAYMENT_COMPLETED";
 
 const RenderApplicantStatus = (status: APPLICANT_STATUS) => {
     let color: string = "";
