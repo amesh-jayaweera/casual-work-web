@@ -38,7 +38,7 @@ export function Header() {
                         </a>
                         <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                             <a className="dropdown-item" href={"#company/profile"}><i className="icon ion-md-contact"/>Profile</a>
-                            <a className="dropdown-item" href={"$/"} onClick={logoutClickHandler}><i className="icon ion-md-undo "/>Log Out</a>
+                            <a className="dropdown-item" href={"/"} onClick={logoutClickHandler}><i className="icon ion-md-undo "/>Log Out</a>
                         </div>
                     </div>
                 </div>
